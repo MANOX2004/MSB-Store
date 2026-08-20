@@ -114,7 +114,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.account_circle, size: 90, color: Colors.amber[800]),
+                    Icon(
+                      Icons.account_circle,
+                      size: 90,
+                      color: Colors.amber[800],
+                    ),
                     SizedBox(height: 16),
                     Text(
                       'You are not logged in!',
