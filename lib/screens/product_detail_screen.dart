@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../main.dart'; // cartItems සඳහා
 import 'checkout_screen.dart';
 import 'login_screen.dart'; // ඔබේ Login screen එක ඇති ෆයිල් එක
+import 'seller_chat_screen.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final Map<String, dynamic> productData;
@@ -31,7 +32,15 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     String description =
         product['description'] ?? 'No description available for this product.';
     String seller =
-        product['seller'] ?? product['shopName'] ?? 'Official Store';
+        product['shopName'] ??
+        product['sellerName'] ??
+        product['seller'] ??
+        'Official Store';
+    String sellerId =
+        (product['sellerId'] ?? product['shopId'] ?? product['vendorId'] ?? '')
+            .toString()
+            .trim();
+    if (sellerId.isEmpty) sellerId = seller;
     double rating = (product['rating'] ?? 4.5).toDouble();
     final colorScheme = Theme.of(context).colorScheme;
 
@@ -120,6 +129,43 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ],
                   ),
                 ],
+              ),
+            ),
+
+            SizedBox(height: 10),
+
+            Container(
+              color: colorScheme.surface,
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: OutlinedButton.icon(
+                icon: Icon(Icons.chat_outlined),
+                label: Text('Chat with Seller'),
+                onPressed: () {
+                  if (FirebaseAuth.instance.currentUser == null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Please log in to chat with the seller.'),
+                      ),
+                    );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => LoginScreen()),
+                    );
+                    return;
+                  }
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => SellerChatScreen(
+                        productId: productId,
+                        productName: name,
+                        sellerId: sellerId.toString(),
+                        sellerName: seller,
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
 
@@ -431,6 +477,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         'name': name,
                         'price': price,
                         'image': image,
+                        'sellerName': seller,
+                        'sellerId': sellerId,
                         'quantity': quantity,
                       });
                     }

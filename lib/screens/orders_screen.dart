@@ -226,8 +226,11 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                       'description':
                                           item['description'] ??
                                           'No description available for this product.',
-                                      'seller':
-                                          item['seller'] ?? 'Official Store',
+                                      'sellerName':
+                                          item['sellerName'] ??
+                                          item['seller'] ??
+                                          'Official Store',
+                                      'sellerId': item['sellerId'] ?? '',
                                       'rating': item['rating'] ?? 4.5,
                                     },
                                   ),
