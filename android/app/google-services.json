@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "65459186865",
+    "project_id": "msb-store-dd1da",
+    "storage_bucket": "msb-store-dd1da.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:65459186865:android:4279be28474d8d0448c690",
+        "android_client_info": {
+          "package_name": "com.example.msb_store"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsu1n-gbjRT9IH0WLhsEzCSG9zDHil9Q0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
