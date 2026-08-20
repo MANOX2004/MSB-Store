@@ -174,17 +174,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ],
               ),
               SizedBox(height: 10),
-              TextButton.icon(
-                onPressed: _pickImage,
-                icon: Icon(Icons.image, color: Colors.amber[700]),
-                label: Text(
-                  'Choose Profile Picture',
-                  style: TextStyle(
-                    color: Colors.amber[700],
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
               SizedBox(height: 30),
               TextField(
                 controller: _nameController,
