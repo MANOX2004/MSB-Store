@@ -84,6 +84,33 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final sectionColor = isDarkMode
+        ? const Color(0xFF111827)
+        : colorScheme.surface;
+    final fieldColor = isDarkMode
+        ? const Color(0xFF1F2937)
+        : colorScheme.surface;
+    final outlineColor = isDarkMode
+        ? Colors.orange.shade300
+        : Colors.orange.shade400;
+
+    InputDecoration fieldDecoration(String label) {
+      return InputDecoration(
+        labelText: label,
+        filled: true,
+        fillColor: fieldColor,
+        labelStyle: TextStyle(color: colorScheme.onSurfaceVariant),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: outlineColor, width: 1.1),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: Colors.orange.shade600, width: 2),
+        ),
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(),
@@ -93,8 +120,9 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Container(
             padding: EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: colorScheme.surface,
+              color: sectionColor,
               borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: outlineColor, width: 1.2),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -111,28 +139,19 @@ class _LoginScreenState extends State<LoginScreen> {
                 if (!isLogin) ...[
                   TextField(
                     controller: nameController,
-                    decoration: InputDecoration(
-                      labelText: 'Full Name',
-                      border: OutlineInputBorder(),
-                    ),
+                    decoration: fieldDecoration('Full Name'),
                   ),
                   SizedBox(height: 12),
                 ],
                 TextField(
                   controller: emailController,
-                  decoration: InputDecoration(
-                    labelText: 'Email Address',
-                    border: OutlineInputBorder(),
-                  ),
+                  decoration: fieldDecoration('Email Address'),
                 ),
                 SizedBox(height: 12),
                 TextField(
                   controller: passwordController,
                   obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: 'Password',
-                    border: OutlineInputBorder(),
-                  ),
+                  decoration: fieldDecoration('Password'),
                 ),
                 SizedBox(height: 20),
                 isLoading
