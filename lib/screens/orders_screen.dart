@@ -52,9 +52,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
         if (imageUrl.isNotEmpty) {
           return Image.network(
             imageUrl,
-            width: 50,
-            height: 50,
-            fit: BoxFit.cover,
+            width: 64,
+            height: 64,
+            fit: BoxFit.contain,
             errorBuilder: (context, error, stackTrace) =>
                 _imagePlaceholder(colorScheme, Icons.image_not_supported),
           );
@@ -66,8 +66,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
 
   Widget _imagePlaceholder(ColorScheme colorScheme, IconData icon) {
     return Container(
-      width: 50,
-      height: 50,
+      width: 64,
+      height: 64,
+      padding: const EdgeInsets.all(4),
       color: colorScheme.surfaceContainerHighest,
       child: Icon(icon, color: Colors.grey),
     );

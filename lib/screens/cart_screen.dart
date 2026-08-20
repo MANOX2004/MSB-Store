@@ -82,18 +82,29 @@ class _CartScreenState extends State<CartScreen> {
                                 ),
                               );
                             },
-                            child:
-                                item['image'] != null &&
-                                    item['image'].isNotEmpty
-                                ? Image.network(
-                                    item['image'],
-                                    width: 50,
-                                    height: 50,
-                                    fit: BoxFit.cover,
-                                    errorBuilder: (c, e, s) =>
-                                        Icon(Icons.image_not_supported),
-                                  )
-                                : Icon(Icons.shopping_basket, size: 50),
+                            child: Container(
+                              width: 64,
+                              height: 64,
+                              padding: const EdgeInsets.all(4),
+                              decoration: BoxDecoration(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.surfaceContainerHighest,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child:
+                                  item['image'] != null &&
+                                      item['image'].toString().isNotEmpty
+                                  ? Image.network(
+                                      item['image'].toString(),
+                                      fit: BoxFit.contain,
+                                      errorBuilder: (c, e, s) => Icon(
+                                        Icons.image_not_supported,
+                                        color: Colors.grey,
+                                      ),
+                                    )
+                                  : Icon(Icons.shopping_basket, size: 40),
+                            ),
                           ),
                           title: InkWell(
                             onTap: () {
