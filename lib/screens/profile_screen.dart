@@ -183,23 +183,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 )
                               : null,
                         ),
-                        Positioned(
-                          bottom: 0,
-                          right: 0,
-                          child: CircleAvatar(
-                            backgroundColor: Colors.amber[800],
-                            radius: 16,
-                            child: IconButton(
-                              padding: EdgeInsets.zero,
-                              icon: Icon(
-                                Icons.edit,
-                                size: 14,
-                                color: Colors.white,
-                              ),
-                              onPressed: _navigateToEditProfile,
-                            ),
-                          ),
-                        ),
                       ],
                     ),
                   ),
