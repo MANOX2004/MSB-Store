@@ -19,13 +19,14 @@ class _CartScreenState extends State<CartScreen> {
       (sum, item) => sum + ((item['price'] ?? 0.0) * (item['quantity'] ?? 1)),
     );
     final colorScheme = Theme.of(context).colorScheme;
+    final orangeAccent = Colors.orange.shade700;
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Cart'),
         actions: [
           TextButton.icon(
-            style: TextButton.styleFrom(foregroundColor: colorScheme.primary),
+            style: TextButton.styleFrom(foregroundColor: orangeAccent),
             onPressed: () {
               Navigator.push(
                 context,
@@ -203,7 +204,7 @@ class _CartScreenState extends State<CartScreen> {
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: Colors.amber[900],
+                              color: orangeAccent,
                             ),
                           ),
                         ],
@@ -214,7 +215,7 @@ class _CartScreenState extends State<CartScreen> {
                         height: 50,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: colorScheme.primary,
+                            backgroundColor: orangeAccent,
                             foregroundColor: colorScheme.onPrimary,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),

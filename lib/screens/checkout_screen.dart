@@ -55,6 +55,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   void _showCouponSelector(BuildContext context, User currentUser) {
     final colorScheme = Theme.of(context).colorScheme;
+    final orangeAccent = Colors.orange.shade700;
     showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
@@ -111,7 +112,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           child: ListTile(
                             leading: Icon(
                               Icons.local_offer,
-                              color: Colors.amber[800],
+                              color: orangeAccent,
                             ),
                             title: Text(
                               title,
@@ -126,7 +127,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             ),
                             trailing: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: colorScheme.primary,
+                                backgroundColor: orangeAccent,
                                 foregroundColor: colorScheme.onPrimary,
                                 padding: EdgeInsets.symmetric(
                                   horizontal: 16,
@@ -163,6 +164,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     double finalTotal = widget.subtotal - discountAmount;
     if (finalTotal < 0) finalTotal = 0;
     final colorScheme = Theme.of(context).colorScheme;
+    final orangeAccent = Colors.orange.shade700;
 
     return Scaffold(
       appBar: AppBar(title: const Text('Checkout')),
@@ -214,7 +216,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.surface,
-                  border: Border.all(color: Colors.amber.shade800, width: 1.5),
+                  border: Border.all(color: orangeAccent, width: 1.5),
                   borderRadius: BorderRadius.circular(10),
                   boxShadow: [
                     BoxShadow(
@@ -231,7 +233,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       children: [
                         Icon(
                           Icons.local_offer_outlined,
-                          color: Colors.amber[800],
+                          color: orangeAccent,
                           size: 22,
                         ),
                         SizedBox(width: 12),
@@ -293,12 +295,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     title: Text('Cash on Delivery'),
                     value: 'Cash on Delivery',
                     groupValue: paymentMethod,
+                    activeColor: orangeAccent,
                     onChanged: (val) => setState(() => paymentMethod = val!),
                   ),
                   RadioListTile<String>(
                     title: Text('Credit / Debit Card (Online Payment)'),
                     value: 'Card',
                     groupValue: paymentMethod,
+                    activeColor: orangeAccent,
                     onChanged: (val) => setState(() => paymentMethod = val!),
                   ),
                 ],
@@ -435,7 +439,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
-                          color: Colors.amber[900],
+                          color: orangeAccent,
                         ),
                       ),
                     ],
@@ -450,7 +454,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               height: 50,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: colorScheme.primary,
+                  backgroundColor: orangeAccent,
                   foregroundColor: colorScheme.onPrimary,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
