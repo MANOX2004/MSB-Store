@@ -309,8 +309,9 @@ class _ShopScreenState extends State<ShopScreen> {
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(
                             color: isDarkMode
-                                ? Colors.white.withOpacity(0.12)
-                                : Colors.grey.shade200,
+                                ? Colors.amber.shade600.withOpacity(0.7)
+                                : Colors.orange.shade300,
+                            width: 1.2,
                           ),
                           boxShadow: [
                             BoxShadow(
