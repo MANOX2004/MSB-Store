@@ -38,6 +38,7 @@ class _ShopScreenState extends State<ShopScreen> {
       appBar: AppBar(
         title: Container(
           height: 42,
+          clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
             color: searchBgColor,
             borderRadius: BorderRadius.circular(22),
