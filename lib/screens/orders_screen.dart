@@ -205,8 +205,13 @@ class _OrdersScreenState extends State<OrdersScreen> {
                           String productName = item['name'] ?? 'Product Name';
                           double price = (item['price'] ?? 0.0).toDouble();
                           int quantity = item['quantity'] ?? 1;
-                          String imageUrl =
-                              item['image'] ?? item['imageUrl'] ?? '';
+                          final imageValue =
+                              item['image'] ??
+                              item['imageUrl'] ??
+                              item['imageURL'];
+                          final imageUrl = imageValue is String
+                              ? imageValue.trim()
+                              : '';
 
                           return InkWell(
                             onTap: () {
@@ -248,12 +253,20 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                             height: 50,
                                             fit: BoxFit.cover,
                                             errorBuilder:
-                                                (context, error, stackTrace) =>
-                                                    Icon(
-                                                      Icons.image_not_supported,
-                                                      size: 50,
-                                                      color: Colors.grey,
-                                                    ),
+                                                (
+                                                  context,
+                                                  error,
+                                                  stackTrace,
+                                                ) => Container(
+                                                  width: 50,
+                                                  height: 50,
+                                                  color: colorScheme
+                                                      .surfaceContainerHighest,
+                                                  child: Icon(
+                                                    Icons.image_not_supported,
+                                                    color: Colors.grey,
+                                                  ),
+                                                ),
                                           )
                                         : Container(
                                             width: 50,
