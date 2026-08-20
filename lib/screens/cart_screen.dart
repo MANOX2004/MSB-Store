@@ -25,7 +25,7 @@ class _CartScreenState extends State<CartScreen> {
         title: const Text('My Cart'),
         actions: [
           TextButton.icon(
-            style: TextButton.styleFrom(foregroundColor: Colors.amberAccent),
+            style: TextButton.styleFrom(foregroundColor: colorScheme.primary),
             onPressed: () {
               Navigator.push(
                 context,

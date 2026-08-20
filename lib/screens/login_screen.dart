@@ -86,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0),
+      appBar: AppBar(),
       body: Center(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(24),

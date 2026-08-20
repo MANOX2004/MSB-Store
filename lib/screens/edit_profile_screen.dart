@@ -15,7 +15,7 @@ class EditProfileScreen extends StatefulWidget {
 class _EditProfileScreenState extends State<EditProfileScreen> {
   final TextEditingController _nameController = TextEditingController();
   bool _isLoading = false;
-  
+
   Uint8List? _imageBytes;
   String? _currentPhotoData;
 
@@ -30,9 +30,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     User? currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
       _nameController.text = currentUser.displayName ?? '';
-      
+
       // Firestore එකෙන් ඩේටා ලබා ගැනීම
-      var doc = await FirebaseFirestore.instance.collection('users').doc(currentUser.uid).get();
+      var doc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUser.uid)
+          .get();
       if (doc.exists && doc.data() != null) {
         setState(() {
           _currentPhotoData = doc.data()!['profileImageUrl'] ?? '';
@@ -96,7 +99,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           _isLoading = false;
         });
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Profile updated successfully!'), backgroundColor: Colors.green),
+          SnackBar(
+            content: Text('Profile updated successfully!'),
+            backgroundColor: Colors.green,
+          ),
         );
         Navigator.pop(context);
       }
@@ -107,7 +113,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           _isLoading = false;
         });
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to update: $e'), backgroundColor: Colors.red),
+          SnackBar(
+            content: Text('Failed to update: $e'),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     }
@@ -136,11 +145,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Edit Profile', style: TextStyle(fontWeight: FontWeight.bold)),
-        centerTitle: true,
-        elevation: 0,
-      ),
+      appBar: AppBar(title: const Text('Edit Profile')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -165,7 +170,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       backgroundColor: Colors.amber[800],
                       radius: 18,
                       child: IconButton(
-                        icon: Icon(Icons.camera_alt, size: 16, color: Colors.white),
+                        icon: Icon(
+                          Icons.camera_alt,
+                          size: 16,
+                          color: Colors.white,
+                        ),
                         onPressed: _pickImage,
                       ),
                     ),
@@ -176,7 +185,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               TextButton.icon(
                 onPressed: _pickImage,
                 icon: Icon(Icons.image, color: Colors.amber[700]),
-                label: Text('Choose Profile Picture', style: TextStyle(color: Colors.amber[700], fontWeight: FontWeight.bold)),
+                label: Text(
+                  'Choose Profile Picture',
+                  style: TextStyle(
+                    color: Colors.amber[700],
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
               SizedBox(height: 30),
               TextField(
@@ -189,7 +204,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: Colors.amber.shade700, width: 2),
+                    borderSide: BorderSide(
+                      color: Colors.amber.shade700,
+                      width: 2,
+                    ),
                   ),
                 ),
               ),
@@ -210,9 +228,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ? SizedBox(
                           height: 24,
                           width: 24,
-                          child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 2,
+                          ),
                         )
-                      : Text('Save Changes', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                      : Text(
+                          'Save Changes',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                 ),
               ),
             ],

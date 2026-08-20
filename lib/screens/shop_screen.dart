@@ -36,8 +36,6 @@ class _ShopScreenState extends State<ShopScreen> {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
-        backgroundColor: appBarColor,
-        elevation: isDarkMode ? 0 : 1,
         title: Container(
           height: 40,
           decoration: BoxDecoration(

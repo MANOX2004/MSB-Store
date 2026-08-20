@@ -33,7 +33,7 @@ class _RewardsScreenState extends State<RewardsScreen> {
 
     if (currentUser == null) {
       return Scaffold(
-        appBar: AppBar(elevation: 0, title: const Text('MSB Club Rewards')),
+        appBar: AppBar(title: const Text('MSB Club Rewards')),
         body: Center(
           child: Padding(
             padding: const EdgeInsets.all(24.0),
@@ -88,7 +88,6 @@ class _RewardsScreenState extends State<RewardsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
         title: const Text('MSB Club Rewards'),
         actions: [
           IconButton(

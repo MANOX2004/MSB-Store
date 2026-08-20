@@ -62,7 +62,7 @@ class _MSBStoreAppState extends State<MSBStoreApp> {
           surfaceTintColor: Colors.transparent,
         ),
         appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.white,
+          backgroundColor: Color(0xFFF4B400),
           foregroundColor: Color(0xFF1E222B),
           elevation: 1,
           centerTitle: true,

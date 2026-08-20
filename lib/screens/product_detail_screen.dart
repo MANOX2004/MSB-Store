@@ -36,7 +36,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      appBar: AppBar(title: Text(name, style: const TextStyle(fontSize: 18))),
+      appBar: AppBar(title: Text(name)),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

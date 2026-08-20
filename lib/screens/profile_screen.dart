@@ -104,15 +104,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     ImageProvider? profileImageProvider = getProfileImage();
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'My Profile',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-        elevation: 0,
-        // ඉහළ දකුණු කෙළවරේ තිබූ actions (Edit icon) කොටස සම්පූර්ණයෙන්ම ඉවත් කර ඇත
-      ),
+      appBar: AppBar(title: const Text('My Profile')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: _isLoadingData
