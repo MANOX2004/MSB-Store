@@ -330,7 +330,9 @@ class _ShopScreenState extends State<ShopScreen> {
                               child: Container(
                                 width: double.infinity,
                                 decoration: BoxDecoration(
-                                  color: Colors.white,
+                                  color: isDarkMode
+                                      ? const Color(0xFF111827)
+                                      : Colors.white,
                                   borderRadius: BorderRadius.vertical(
                                     top: Radius.circular(16),
                                   ),
