@@ -331,7 +331,7 @@ class _ShopScreenState extends State<ShopScreen> {
                               child: Container(
                                 width: double.infinity,
                                 decoration: BoxDecoration(
-                                  color: cardColor,
+                                  color: Colors.white,
                                   borderRadius: BorderRadius.vertical(
                                     top: Radius.circular(16),
                                   ),

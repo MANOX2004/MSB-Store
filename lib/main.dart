@@ -65,6 +65,13 @@ class _MSBStoreAppState extends State<MSBStoreApp> {
           backgroundColor: Colors.white,
           foregroundColor: Color(0xFF1E222B),
           elevation: 1,
+          centerTitle: true,
+          titleTextStyle: TextStyle(
+            color: Color(0xFF1E222B),
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+          ),
+          iconTheme: IconThemeData(color: Color(0xFF1E222B)),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
@@ -109,6 +116,11 @@ class _MSBStoreAppState extends State<MSBStoreApp> {
           backgroundColor: Colors.white,
           selectedItemColor: Colors.amber[800],
           unselectedItemColor: Colors.grey[600],
+          selectedLabelStyle: const TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w700,
+          ),
+          unselectedLabelStyle: const TextStyle(fontSize: 12),
         ),
       ),
       darkTheme: ThemeData(
@@ -126,6 +138,13 @@ class _MSBStoreAppState extends State<MSBStoreApp> {
           backgroundColor: Color(0xFF1E293B),
           foregroundColor: Colors.white,
           elevation: 0,
+          centerTitle: true,
+          titleTextStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+          ),
+          iconTheme: IconThemeData(color: Colors.white),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
@@ -163,6 +182,11 @@ class _MSBStoreAppState extends State<MSBStoreApp> {
           backgroundColor: Color(0xFF1E293B),
           selectedItemColor: Colors.amber,
           unselectedItemColor: Colors.white60,
+          selectedLabelStyle: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w700,
+          ),
+          unselectedLabelStyle: TextStyle(fontSize: 12),
         ),
         inputDecorationTheme: InputDecorationTheme(
           filled: true,

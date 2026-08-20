@@ -57,6 +57,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   bool _isLoading = false;
 
   void _showCouponSelector(BuildContext context, User currentUser) {
+    final colorScheme = Theme.of(context).colorScheme;
     showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
@@ -128,8 +129,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             ),
                             trailing: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Color(0xFF1E222B),
-                                foregroundColor: Colors.white,
+                                backgroundColor: colorScheme.primary,
+                                foregroundColor: colorScheme.onPrimary,
                                 padding: EdgeInsets.symmetric(
                                   horizontal: 16,
                                   vertical: 8,
