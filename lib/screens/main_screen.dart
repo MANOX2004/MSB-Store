@@ -3,7 +3,7 @@ import 'shop_screen.dart';
 import 'cart_screen.dart';
 import 'rewards_screen.dart';
 import 'chat_screen.dart';
-import 'profile_screen.dart'; // 👈 Profile Screen එක ඉම්පෝර්ට් කර ඇත (නම වෙනස් නම් මෙතැන වෙනස් කරන්න)
+import 'profile_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key, required this.onToggleTheme});
@@ -17,7 +17,6 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
 
-  // 👈 _screens ලැයිස්තුවට ProfileScreen එක එකතු කර ඇත[cite: 2]
   List<Widget> get _screens => [
     ShopScreen(onToggleTheme: widget.onToggleTheme),
     CartScreen(),
@@ -38,7 +37,6 @@ class _MainScreenState extends State<MainScreen> {
             _currentIndex = index;
           });
         },
-        // 👈 BottomNavigationBar එකට Profile අයිකන් සහ ලේබල් එක එකතු කර ඇත[cite: 2]
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.store), label: 'Shop'),
           BottomNavigationBarItem(
@@ -50,10 +48,7 @@ class _MainScreenState extends State<MainScreen> {
             label: 'Rewards',
           ),
           BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Support'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ), // 👈 නව Profile අයිකනය
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
       ),
     );

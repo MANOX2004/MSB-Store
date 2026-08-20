@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
-import 'product_detail_screen.dart'; // ඔබගේ ProductDetailScreen එක ඇති ෆයිල් එක මෙතැනට import කරන්න
+import 'product_detail_screen.dart';
 
 class OrdersScreen extends StatefulWidget {
   @override
@@ -103,7 +103,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   orderData['paymentMethod'] ?? 'Cash on Delivery';
               List items = orderData['items'] ?? [];
 
-              // Total Amount එක නිවැරදිව ලබා ගැනීම හෝ ගණනය කර ගැනීම
               double total = 0.0;
               if (orderData.containsKey('total') &&
                   orderData['total'] != null) {
@@ -141,7 +140,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Order ID & Status Header
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -190,7 +188,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
                       ),
                       Divider(height: 16, thickness: 1),
 
-                      // Ordered Items List with Images & ProductDetailScreen Navigation
                       Text(
                         'Items:',
                         style: TextStyle(
@@ -213,7 +210,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
 
                           return InkWell(
                             onTap: () {
-                              // ප්‍රඩක්ට් එක ක්ලික් කළ විට ProductDetailScreen වෙත ඩේටා යැවීම[cite: 1]
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -243,7 +239,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
                               ),
                               child: Row(
                                 children: [
-                                  // Product Image
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(8),
                                     child: imageUrl.isNotEmpty
@@ -272,7 +267,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                           ),
                                   ),
                                   SizedBox(width: 12),
-                                  // Product Details
                                   Expanded(
                                     child: Column(
                                       crossAxisAlignment:
@@ -298,7 +292,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                       ],
                                     ),
                                   ),
-                                  // Item Price
                                   Text(
                                     'Rs. ${(price * quantity).toStringAsFixed(2)}',
                                     style: TextStyle(
@@ -315,7 +308,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
                       ),
 
                       Divider(height: 16, thickness: 1),
-                      // Total Amount Footer
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

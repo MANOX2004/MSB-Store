@@ -23,7 +23,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _fetchUserDataFromFirestore();
   }
 
-  // Firestore එකෙන් ඩේටා ලබා ගැනීම
   Future<void> _fetchUserDataFromFirestore() async {
     User? currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser == null) return;
@@ -52,7 +51,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  // වෙනස්කම් කර ආපසු ආ විට Screen එක සහ ඩේටා අප්ඩේට් කිරීමට
   void _navigateToEditProfile() {
     Navigator.push(
       context,
@@ -68,7 +66,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     User? currentUser = FirebaseAuth.instance.currentUser;
     final colorScheme = Theme.of(context).colorScheme;
 
-    // Base64 හෝ Network ලින්ක් එක නිවැරදිව ImageProvider එකක් බවට හැරවීම
     ImageProvider? getProfileImage() {
       if (_firestoreImageUrl != null && _firestoreImageUrl!.isNotEmpty) {
         if (_firestoreImageUrl!.startsWith('data:image')) {
@@ -221,7 +218,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   SizedBox(height: 30),
 
-                  // Edit Profile බොත්තම
                   Card(
                     elevation: 1,
                     shape: RoundedRectangleBorder(
@@ -246,7 +242,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   SizedBox(height: 10),
 
-                  // Email Address පෙන්වන කොටස
                   Card(
                     elevation: 1,
                     shape: RoundedRectangleBorder(

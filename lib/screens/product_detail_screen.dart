@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../main.dart'; // cartItems සඳහා
+import '../main.dart';
 import 'checkout_screen.dart';
-import 'login_screen.dart'; // ඔබේ Login screen එක ඇති ෆයිල් එක
+import 'login_screen.dart';
 import 'seller_chat_screen.dart';
 
 class ProductDetailScreen extends StatefulWidget {
@@ -50,7 +50,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Product Image
             Container(
               height: 300,
               width: double.infinity,
@@ -68,7 +67,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   : Icon(Icons.shopping_bag, size: 80, color: Colors.grey),
             ),
 
-            // Product Main Info
             Container(
               color: colorScheme.surface,
               padding: EdgeInsets.all(16),
@@ -171,7 +169,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
             SizedBox(height: 10),
 
-            // Quantity Selector
             Container(
               color: colorScheme.surface,
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -211,7 +208,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
             SizedBox(height: 10),
 
-            // Description Section
             Container(
               color: colorScheme.surface,
               width: double.infinity,
@@ -238,7 +234,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
             SizedBox(height: 10),
 
-            // Reviews & Ratings Section
             Container(
               color: colorScheme.surface,
               padding: EdgeInsets.all(16),
@@ -251,7 +246,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   ),
                   SizedBox(height: 12),
 
-                  // Add Review Form
                   Card(
                     elevation: 0,
                     color: colorScheme.surfaceContainerHighest,
@@ -377,7 +371,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   ),
                   SizedBox(height: 12),
 
-                  // Display Reviews Stream
                   StreamBuilder<QuerySnapshot>(
                     stream: FirebaseFirestore.instance
                         .collection('products')
@@ -453,7 +446,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           ],
         ),
       ),
-      // Bottom Bar with Add to Cart & Buy Now
       bottomSheet: Container(
         padding: EdgeInsets.all(12),
         color: colorScheme.surface,
@@ -509,7 +501,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   padding: EdgeInsets.symmetric(vertical: 14),
                 ),
                 onPressed: () {
-                  // Buy Now ඔබන විට Login වී ඇද්දැයි පරීක්ෂා කිරීම
                   User? user = FirebaseAuth.instance.currentUser;
 
                   if (user == null) {

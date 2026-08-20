@@ -6,7 +6,6 @@ import '../main.dart';
 import 'login_screen.dart';
 import 'orders_screen.dart';
 
-// Expiry Date එකට MM/YY ආකාරයට ස්වයංක්‍රීයව '/' එකතු කරන Formatter එක
 class CardDateInputFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
@@ -44,12 +43,10 @@ class CheckoutScreen extends StatefulWidget {
 class _CheckoutScreenState extends State<CheckoutScreen> {
   final TextEditingController _addressController = TextEditingController();
 
-  // Card Details Controllers
   final TextEditingController _cardNumberController = TextEditingController();
   final TextEditingController _expiryController = TextEditingController();
   final TextEditingController _cvvController = TextEditingController();
 
-  // Coupon variables
   String? selectedCouponId;
   String selectedCouponTitle = '';
   double discountAmount = 0.0;
@@ -174,7 +171,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Shipping Address Section
             Text(
               'Shipping Address',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
@@ -192,7 +188,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             ),
             SizedBox(height: 20),
 
-            // Modern Coupon Selection UI
             Text(
               'Apply Rewards / Coupon',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
@@ -283,7 +278,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
             SizedBox(height: 20),
 
-            // Payment Method Section
             Text(
               'Payment Method',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
@@ -311,7 +305,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               ),
             ),
 
-            // Card Details Form
             if (paymentMethod == 'Card') ...[
               SizedBox(height: 15),
               Container(
@@ -359,10 +352,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             keyboardType: TextInputType.number,
                             inputFormatters: [
                               FilteringTextInputFormatter.digitsOnly,
-                              LengthLimitingTextInputFormatter(
-                                5,
-                              ), // MM/YY නිසා උපරිම අක්ෂර 5 යි
-                              CardDateInputFormatter(), // ස්වයංක්‍රීයව '/' එකතු කරයි
+                              LengthLimitingTextInputFormatter(5),
+                              CardDateInputFormatter(),
                             ],
                             decoration: InputDecoration(
                               labelText: 'Expiry Date',
@@ -401,7 +392,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
             SizedBox(height: 20),
 
-            // Price Breakdown Summary
             Container(
               padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
@@ -455,7 +445,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             ),
             SizedBox(height: 24),
 
-            // Confirm & Place Order Button
             SizedBox(
               width: double.infinity,
               height: 50,

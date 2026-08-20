@@ -25,13 +25,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     _loadUserData();
   }
 
-  // ඩේටාබේස් එකෙන් දැනට තියෙන නම සහ ෆොටෝ එක ලබා ගැනීම
   Future<void> _loadUserData() async {
     User? currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
       _nameController.text = currentUser.displayName ?? '';
 
-      // Firestore එකෙන් ඩේටා ලබා ගැනීම
       var doc = await FirebaseFirestore.instance
           .collection('users')
           .doc(currentUser.uid)
@@ -44,7 +42,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     }
   }
 
-  // ගැලරියෙන් පින්තූරයක් තෝරා ගැනීම
   Future<void> _pickImage() async {
     try {
       final ImagePicker picker = ImagePicker();
@@ -61,7 +58,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     }
   }
 
-  // ප්‍රොෆයිල් එක නොමිලේ සේව් කිරීම (Firestore හරහා)
   Future<void> _saveProfile() async {
     User? currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser == null) return;
@@ -73,7 +69,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     try {
       String finalPhotoData = _currentPhotoData ?? '';
 
-      // යූසර් අලුතින් පින්තූරයක් තෝරා ඇත්නම් එය Base64 string එකක් බවට හැරවීම
       if (_imageBytes != null) {
         String base64String = base64Encode(_imageBytes!);
         finalPhotoData = 'data:image/jpeg;base64,$base64String';
@@ -81,11 +76,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
       String updatedName = _nameController.text.trim();
 
-      // 1. Firebase Authentication එකේ නම අප්ඩේට් කිරීම
       await currentUser.updateDisplayName(updatedName);
       await currentUser.reload();
 
-      // 2. Firestore Database එකේ 'users' collection එකට නම සහ Base64 Image string එක සේව් කිරීම
       await FirebaseFirestore.instance
           .collection('users')
           .doc(currentUser.uid)
@@ -124,7 +117,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // පින්තූරය (MemoryImage හෝ NetworkImage) නිවැරදිව පෙන්වීම සඳහා
     ImageProvider? getBackgroundImage() {
       if (_imageBytes != null) {
         return MemoryImage(_imageBytes!);

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'main_screen.dart'; // හෝ ඔබේ ප්‍රධාන Screen එක
+import 'main_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key, required this.onToggleTheme});
@@ -15,7 +15,6 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    // තත්පර 3කට පසු MainScreen වෙත මාරුවීම
     Future.delayed(Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,

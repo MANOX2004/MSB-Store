@@ -37,10 +37,10 @@ class _ShopScreenState extends State<ShopScreen> {
       backgroundColor: backgroundColor,
       appBar: AppBar(
         title: Container(
-          height: 40,
+          height: 42,
           decoration: BoxDecoration(
             color: searchBgColor,
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(22),
             border: Border.all(
               color: isDarkMode
                   ? Colors.white.withOpacity(0.2)
@@ -56,7 +56,7 @@ class _ShopScreenState extends State<ShopScreen> {
               hintStyle: TextStyle(color: subTextColor, fontSize: 13),
               prefixIcon: Icon(Icons.search, color: subTextColor, size: 20),
               border: InputBorder.none,
-              contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+              contentPadding: EdgeInsets.symmetric(vertical: 9, horizontal: 8),
             ),
             onChanged: (value) {
               setState(() {
@@ -279,7 +279,6 @@ class _ShopScreenState extends State<ShopScreen> {
                     var productName = productData['name'] ?? 'No Name';
                     var productPrice = productData['price'] ?? 0.0;
 
-                    // මිල නිවැරදිව double ආකාරයට ලබා ගැනීම
                     double priceDouble = 0.0;
                     if (productPrice is int) {
                       priceDouble = productPrice.toDouble();

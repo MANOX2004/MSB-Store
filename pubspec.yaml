@@ -29,7 +29,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  # ඔබේ ලෝගෝ ඉමේජ් එක assets ෆෝල්ඩර් එකට දැමූ පසු මෙහි අංකනය කරන්න
   assets:
     - assets/logo.png
 
@@ -37,9 +36,7 @@ flutter_native_splash:
   color: "#FFFFFF"
   image: "assets/logo.png"
   
-  # Android 12 වලදී අර සුදු box එක එන එක සම්පූර්ණයෙන්ම Disable කිරීමට
   android_12:
     color: "#FFFFFF"
     image: "assets/logo.png"
-    # සමහර Android 12 ෆෝන් වල icon background එක වෙනස් කිරීමට මෙය උදව් වේ
     icon_background_color: "#FFFFFF"
