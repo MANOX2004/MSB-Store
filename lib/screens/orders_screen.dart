@@ -164,7 +164,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
               String status = orderData['status'] ?? 'Pending';
               String paymentMethod =
                   orderData['paymentMethod'] ?? 'Cash on Delivery';
-              List items = orderData['items'] ?? [];
+              final rawItems =
+                  orderData['items'] ??
+                  orderData['orderItems'] ??
+                  orderData['products'] ??
+                  [];
+              List items = rawItems is List ? rawItems : [];
 
               double total = 0.0;
               if (orderData.containsKey('total') &&

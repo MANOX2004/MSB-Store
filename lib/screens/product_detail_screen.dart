@@ -521,9 +521,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       cartItems[existing]['quantity'] += quantity;
                     } else {
                       cartItems.add({
+                        'id': productId,
                         'name': name,
                         'price': price,
                         'image': image,
+                        'description': description,
+                        'rating': rating,
                         'sellerName': seller,
                         'sellerId': sellerId,
                         'quantity': quantity,

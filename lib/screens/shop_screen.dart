@@ -407,9 +407,22 @@ class _ShopScreenState extends State<ShopScreen> {
                                                 1;
                                           } else {
                                             cartItems.add({
+                                              'id': product.id,
                                               'name': productName,
                                               'price': priceDouble,
                                               'image': productImage,
+                                              'description':
+                                                  productData['description'] ??
+                                                  '',
+                                              'rating':
+                                                  productData['rating'] ?? 4.5,
+                                              'sellerName':
+                                                  productData['shopName'] ??
+                                                  productData['sellerName'] ??
+                                                  productData['seller'] ??
+                                                  'Official Store',
+                                              'sellerId':
+                                                  productData['sellerId'] ?? '',
                                               'quantity': 1,
                                             });
                                           }
