@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -20,6 +21,57 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   int quantity = 1;
   final TextEditingController _reviewController = TextEditingController();
   double _userRating = 5.0;
+
+  ImageProvider? _imageProvider(String? imageData) {
+    if (imageData == null || imageData.isEmpty) return null;
+    if (imageData.startsWith('data:image')) {
+      try {
+        final parts = imageData.split(',');
+        if (parts.length > 1) return MemoryImage(base64Decode(parts[1]));
+      } catch (_) {
+        return null;
+      }
+    }
+    return NetworkImage(imageData);
+  }
+
+  Widget _reviewAvatar(Map<String, dynamic> review) {
+    final imageData = review['profileImageUrl']?.toString();
+    final localImage = _imageProvider(imageData);
+    if (localImage != null) {
+      return CircleAvatar(backgroundImage: localImage);
+    }
+
+    final userId = review['userId']?.toString();
+    if (userId == null || userId.isEmpty) {
+      return CircleAvatar(
+        backgroundColor: Colors.blueGrey,
+        child: Text(
+          (review['userName'] ?? 'U')[0].toUpperCase(),
+          style: TextStyle(color: Colors.white),
+        ),
+      );
+    }
+
+    return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+      future: FirebaseFirestore.instance.collection('users').doc(userId).get(),
+      builder: (context, snapshot) {
+        final profileImage = _imageProvider(
+          snapshot.data?.data()?['profileImageUrl']?.toString(),
+        );
+        return CircleAvatar(
+          backgroundImage: profileImage,
+          backgroundColor: Colors.blueGrey,
+          child: profileImage == null
+              ? Text(
+                  (review['userName'] ?? 'U')[0].toUpperCase(),
+                  style: TextStyle(color: Colors.white),
+                )
+              : null,
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -324,6 +376,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 }
 
                                 try {
+                                  final userDoc = await FirebaseFirestore
+                                      .instance
+                                      .collection('users')
+                                      .doc(user.uid)
+                                      .get();
+                                  final profileImageUrl = userDoc
+                                      .data()?['profileImageUrl'];
                                   await FirebaseFirestore.instance
                                       .collection('products')
                                       .doc(productId)
@@ -334,6 +393,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                             user.email?.split('@')[0] ??
                                             'User',
                                         'userId': user.uid,
+                                        'profileImageUrl':
+                                            profileImageUrl ?? '',
                                         'rating': _userRating,
                                         'comment': _reviewController.text
                                             .trim(),
@@ -401,13 +462,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               reviews[index].data() as Map<String, dynamic>;
                           return ListTile(
                             contentPadding: EdgeInsets.zero,
-                            leading: CircleAvatar(
-                              backgroundColor: Colors.blueGrey,
-                              child: Text(
-                                (rev['userName'] ?? 'U')[0].toUpperCase(),
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
+                            leading: _reviewAvatar(rev),
                             title: Row(
                               children: [
                                 Text(
