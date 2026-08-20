@@ -28,7 +28,6 @@ class _ShopScreenState extends State<ShopScreen> {
     Color backgroundColor = Theme.of(context).scaffoldBackgroundColor;
     Color appBarColor =
         Theme.of(context).appBarTheme.backgroundColor ?? colorScheme.surface;
-    Color cardColor = Theme.of(context).cardColor;
     Color textColor = colorScheme.onSurface;
     Color subTextColor = colorScheme.onSurfaceVariant;
     Color searchBgColor = colorScheme.surfaceContainerHighest;
@@ -305,7 +304,7 @@ class _ShopScreenState extends State<ShopScreen> {
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          color: cardColor,
+                          color: backgroundColor,
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(
                             color: isDarkMode
