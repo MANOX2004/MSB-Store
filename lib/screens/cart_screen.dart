@@ -14,13 +14,15 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
-    double grandTotal = cartItems.fold(0.0, (sum, item) => sum + ((item['price'] ?? 0.0) * (item['quantity'] ?? 1)));
+    double grandTotal = cartItems.fold(
+      0.0,
+      (sum, item) => sum + ((item['price'] ?? 0.0) * (item['quantity'] ?? 1)),
+    );
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Cart', style: TextStyle(color: Colors.white)),
-        backgroundColor: Color(0xFF1E222B),
-        iconTheme: IconThemeData(color: Colors.white),
+        title: const Text('My Cart'),
         actions: [
           TextButton.icon(
             style: TextButton.styleFrom(foregroundColor: Colors.amberAccent),
@@ -40,9 +42,20 @@ class _CartScreenState extends State<CartScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.shopping_cart_outlined, size: 80, color: Colors.grey),
+                  Icon(
+                    Icons.shopping_cart_outlined,
+                    size: 80,
+                    color: Colors.grey,
+                  ),
                   SizedBox(height: 16),
-                  Text('Your Cart is Empty!', style: TextStyle(fontSize: 18, color: Colors.grey, fontWeight: FontWeight.bold)),
+                  Text(
+                    'Your Cart is Empty!',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ],
               ),
             )
@@ -54,20 +67,32 @@ class _CartScreenState extends State<CartScreen> {
                     itemBuilder: (context, index) {
                       var item = cartItems[index];
                       return Card(
-                        margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        margin: EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 6,
+                        ),
                         child: ListTile(
                           leading: InkWell(
                             onTap: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ProductDetailScreen(productData: item),
+                                  builder: (context) =>
+                                      ProductDetailScreen(productData: item),
                                 ),
                               );
                             },
-                            child: item['image'] != null && item['image'].isNotEmpty
-                                ? Image.network(item['image'], width: 50, height: 50, fit: BoxFit.cover,
-                                    errorBuilder: (c, e, s) => Icon(Icons.image_not_supported))
+                            child:
+                                item['image'] != null &&
+                                    item['image'].isNotEmpty
+                                ? Image.network(
+                                    item['image'],
+                                    width: 50,
+                                    height: 50,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (c, e, s) =>
+                                        Icon(Icons.image_not_supported),
+                                  )
                                 : Icon(Icons.shopping_basket, size: 50),
                           ),
                           title: InkWell(
@@ -75,18 +100,27 @@ class _CartScreenState extends State<CartScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ProductDetailScreen(productData: item),
+                                  builder: (context) =>
+                                      ProductDetailScreen(productData: item),
                                 ),
                               );
                             },
-                            child: Text(item['name'] ?? 'Product', style: TextStyle(fontWeight: FontWeight.bold)),
+                            child: Text(
+                              item['name'] ?? 'Product',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
                           ),
-                          subtitle: Text('Rs. ${item['price']} x ${item['quantity']}'),
+                          subtitle: Text(
+                            'Rs. ${item['price']} x ${item['quantity']}',
+                          ),
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               IconButton(
-                                icon: Icon(Icons.remove_circle_outline, size: 20),
+                                icon: Icon(
+                                  Icons.remove_circle_outline,
+                                  size: 20,
+                                ),
                                 onPressed: () {
                                   setState(() {
                                     if (item['quantity'] > 1) {
@@ -97,7 +131,13 @@ class _CartScreenState extends State<CartScreen> {
                                   });
                                 },
                               ),
-                              Text('${item['quantity']}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                              Text(
+                                '${item['quantity']}',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                               IconButton(
                                 icon: Icon(Icons.add_circle_outline, size: 20),
                                 onPressed: () {
@@ -107,7 +147,11 @@ class _CartScreenState extends State<CartScreen> {
                                 },
                               ),
                               IconButton(
-                                icon: Icon(Icons.delete, color: Colors.red, size: 20),
+                                icon: Icon(
+                                  Icons.delete,
+                                  color: Colors.red,
+                                  size: 20,
+                                ),
                                 onPressed: () {
                                   setState(() {
                                     cartItems.removeAt(index);
@@ -124,16 +168,35 @@ class _CartScreenState extends State<CartScreen> {
                 Container(
                   padding: EdgeInsets.all(16.0),
                   decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.3), blurRadius: 5, offset: Offset(0, -3))],
+                    color: Theme.of(context).cardColor,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.3),
+                        blurRadius: 5,
+                        offset: Offset(0, -3),
+                      ),
+                    ],
                   ),
                   child: Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Grand Total:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                          Text('Rs. ${grandTotal.toStringAsFixed(2)}', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.amber[900])),
+                          Text(
+                            'Grand Total:',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            'Rs. ${grandTotal.toStringAsFixed(2)}',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.amber[900],
+                            ),
+                          ),
                         ],
                       ),
                       SizedBox(height: 12),
@@ -142,19 +205,25 @@ class _CartScreenState extends State<CartScreen> {
                         height: 50,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFF1E222B),
-                            foregroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                            backgroundColor: colorScheme.primary,
+                            foregroundColor: colorScheme.onPrimary,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
                           ),
                           onPressed: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => CheckoutScreen(subtotal: grandTotal),
+                                builder: (context) =>
+                                    CheckoutScreen(subtotal: grandTotal),
                               ),
                             );
                           },
-                          child: Text('Proceed to Checkout', style: TextStyle(fontSize: 16)),
+                          child: Text(
+                            'Proceed to Checkout',
+                            style: TextStyle(fontSize: 16),
+                          ),
                         ),
                       ),
                     ],

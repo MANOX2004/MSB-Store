@@ -6,7 +6,9 @@ import 'chat_screen.dart';
 import 'profile_screen.dart'; // 👈 Profile Screen එක ඉම්පෝර්ට් කර ඇත (නම වෙනස් නම් මෙතැන වෙනස් කරන්න)
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  const MainScreen({super.key, required this.onToggleTheme});
+
+  final VoidCallback onToggleTheme;
 
   @override
   _MainScreenState createState() => _MainScreenState();
@@ -16,12 +18,12 @@ class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
 
   // 👈 _screens ලැයිස්තුවට ProfileScreen එක එකතු කර ඇත[cite: 2]
-  final List<Widget> _screens = [
-    ShopScreen(),
-    CartScreen(), 
+  List<Widget> get _screens => [
+    ShopScreen(onToggleTheme: widget.onToggleTheme),
+    CartScreen(),
     RewardsScreen(),
     ChatScreen(),
-    ProfileScreen(), // 👈 නව Profile ටැබ් එක
+    ProfileScreen(),
   ];
 
   @override
@@ -30,8 +32,6 @@ class _MainScreenState extends State<MainScreen> {
       body: _screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
-        selectedItemColor: Colors.amber[800],
-        unselectedItemColor: Colors.grey,
         type: BottomNavigationBarType.fixed,
         onTap: (index) {
           setState(() {
@@ -41,10 +41,19 @@ class _MainScreenState extends State<MainScreen> {
         // 👈 BottomNavigationBar එකට Profile අයිකන් සහ ලේබල් එක එකතු කර ඇත[cite: 2]
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.store), label: 'Shop'),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_bag), label: 'Cart'),
-          BottomNavigationBarItem(icon: Icon(Icons.card_giftcard), label: 'Rewards'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_bag),
+            label: 'Cart',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.card_giftcard),
+            label: 'Rewards',
+          ),
           BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Support'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'), // 👈 නව Profile අයිකනය
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ), // 👈 නව Profile අයිකනය
         ],
       ),
     );

@@ -29,16 +29,11 @@ class _RewardsScreenState extends State<RewardsScreen> {
   @override
   Widget build(BuildContext context) {
     User? currentUser = FirebaseAuth.instance.currentUser;
+    final colorScheme = Theme.of(context).colorScheme;
 
     if (currentUser == null) {
       return Scaffold(
-        backgroundColor: const Color(0xFF1E222B), // Set a background color for the login prompt screen
-        appBar: AppBar(
-          backgroundColor: const Color(0xFF1E222B),
-          elevation: 0,
-          title: const Text('MSB Club Rewards',
-              style: TextStyle(color: Colors.black)),
-        ),
+        appBar: AppBar(elevation: 0, title: const Text('MSB Club Rewards')),
         body: Center(
           child: Padding(
             padding: const EdgeInsets.all(24.0),
@@ -47,17 +42,19 @@ class _RewardsScreenState extends State<RewardsScreen> {
               children: [
                 Icon(Icons.lock_outline, size: 70, color: Colors.amber[800]),
                 const SizedBox(height: 16),
-                const Text('Login Required',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold)),
+                Text(
+                  'Login Required',
+                  style: TextStyle(
+                    color: colorScheme.onSurface,
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 const SizedBox(height: 8),
                 Text(
                   'Please login or register to view your profile and rewards!',
                   textAlign: TextAlign.center,
-                  style:
-                      TextStyle(color: Colors.grey[400], fontSize: 14),
+                  style: TextStyle(color: Colors.grey[400], fontSize: 14),
                 ),
                 const SizedBox(height: 24),
                 ElevatedButton(
@@ -65,17 +62,20 @@ class _RewardsScreenState extends State<RewardsScreen> {
                     backgroundColor: Colors.amber[800],
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 32, vertical: 12),
+                      horizontal: 32,
+                      vertical: 12,
+                    ),
                   ),
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => LoginScreen()),
+                      MaterialPageRoute(builder: (context) => LoginScreen()),
                     ).then((_) => setState(() {}));
                   },
-                  child: const Text('Login / Register Now',
-                      style: TextStyle(fontSize: 16)),
+                  child: const Text(
+                    'Login / Register Now',
+                    style: TextStyle(fontSize: 16),
+                  ),
                 ),
               ],
             ),
@@ -87,31 +87,33 @@ class _RewardsScreenState extends State<RewardsScreen> {
     String userId = currentUser.uid;
 
     return Scaffold(
-      backgroundColor: const Color(0xFF12141A),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF1E222B),
         elevation: 0,
-        title: const Text('MSB Club Rewards',
-            style: TextStyle(color: Colors.white)),
+        title: const Text('MSB Club Rewards'),
         actions: [
           IconButton(
-            icon: const Icon(Icons.logout, color: Colors.white),
+            icon: const Icon(Icons.logout),
             tooltip: 'Logout',
             onPressed: () {
               showDialog(
                 context: context,
                 builder: (ctx) => AlertDialog(
-                  backgroundColor: const Color(0xFF1E222B),
-                  title: const Text('Logout Confirmation',
-                      style: TextStyle(color: Colors.white)),
-                  content: const Text(
-                      'Are you sure you want to log out from your account?',
-                      style: TextStyle(color: Colors.white70)),
+                  backgroundColor: colorScheme.surface,
+                  title: Text(
+                    'Logout Confirmation',
+                    style: TextStyle(color: colorScheme.onSurface),
+                  ),
+                  content: Text(
+                    'Are you sure you want to log out from your account?',
+                    style: TextStyle(color: colorScheme.onSurfaceVariant),
+                  ),
                   actions: [
                     TextButton(
                       onPressed: () => Navigator.pop(ctx),
-                      child: const Text('Cancel',
-                          style: TextStyle(color: Colors.grey)),
+                      child: const Text(
+                        'Cancel',
+                        style: TextStyle(color: Colors.grey),
+                      ),
                     ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
@@ -124,7 +126,8 @@ class _RewardsScreenState extends State<RewardsScreen> {
                         setState(() {});
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                              content: Text('Logged out successfully!')),
+                            content: Text('Logged out successfully!'),
+                          ),
                         );
                       },
                       child: const Text('Logout'),
@@ -153,22 +156,26 @@ class _RewardsScreenState extends State<RewardsScreen> {
                   var data = snapshot.data!.data() as Map<String, dynamic>;
                   userName = data['name'] ?? 'MSB Member';
                   userPoints = data['points'] ?? 0;
-                  profileImageUrl = data['profileImageUrl'] ?? currentUser.photoURL;
+                  profileImageUrl =
+                      data['profileImageUrl'] ?? currentUser.photoURL;
                 }
 
-                ImageProvider? imageProvider = _getProfileImage(profileImageUrl);
+                ImageProvider? imageProvider = _getProfileImage(
+                  profileImageUrl,
+                );
 
                 return Container(
                   margin: const EdgeInsets.all(20),
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF1E222B),
+                    color: colorScheme.surfaceContainer,
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
-                          color: Colors.black.withOpacity(0.3),
-                          blurRadius: 8,
-                          spreadRadius: 2)
+                        color: Colors.black.withOpacity(0.3),
+                        blurRadius: 8,
+                        spreadRadius: 2,
+                      ),
                     ],
                   ),
                   child: Row(
@@ -183,9 +190,10 @@ class _RewardsScreenState extends State<RewardsScreen> {
                                     ? userName[0].toUpperCase()
                                     : 'M',
                                 style: const TextStyle(
-                                    fontSize: 24,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
+                                  fontSize: 24,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               )
                             : null,
                       ),
@@ -194,39 +202,51 @@ class _RewardsScreenState extends State<RewardsScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text('Welcome back,',
-                                style: TextStyle(
-                                    color: Colors.white70, fontSize: 12)),
-                            Text(userName,
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold)),
+                            Text(
+                              'Welcome back,',
+                              style: TextStyle(
+                                color: colorScheme.onSurfaceVariant,
+                                fontSize: 12,
+                              ),
+                            ),
+                            Text(
+                              userName,
+                              style: TextStyle(
+                                color: colorScheme.onSurface,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                             const SizedBox(height: 4),
-                            Text('Points: $userPoints',
-                                style: TextStyle(
-                                    color: Colors.amber[400],
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600)),
+                            Text(
+                              'Points: $userPoints',
+                              style: TextStyle(
+                                color: Colors.amber[400],
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
                           ],
                         ),
                       ),
-                      Icon(Icons.verified,
-                          color: Colors.amber[400], size: 28),
+                      Icon(Icons.verified, color: Colors.amber[400], size: 28),
                     ],
                   ),
                 );
               },
             ),
-            const Padding(
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Text('Available Rewards',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold)),
+                child: Text(
+                  'Available Rewards',
+                  style: TextStyle(
+                    color: colorScheme.onSurface,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
             StreamBuilder<QuerySnapshot>(
@@ -236,7 +256,8 @@ class _RewardsScreenState extends State<RewardsScreen> {
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return const Center(
-                      child: CircularProgressIndicator(color: Colors.amber));
+                    child: CircularProgressIndicator(color: Colors.amber),
+                  );
                 }
                 var rewardDocs = snapshot.data!.docs;
 
@@ -250,25 +271,32 @@ class _RewardsScreenState extends State<RewardsScreen> {
                     var pointsNeeded = reward['pointsRequired'] ?? 500;
 
                     return Card(
-                      color: const Color(0xFF1E222B),
+                      color: colorScheme.surfaceContainer,
                       margin: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 6),
+                        horizontal: 20,
+                        vertical: 6,
+                      ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: ListTile(
-                        leading:
-                            Icon(Icons.redeem, color: Colors.amber[800]),
-                        title: Text(rewardTitle,
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold)),
-                        subtitle: Text('Needs $pointsNeeded points',
-                            style: TextStyle(color: Colors.grey[400])),
+                        leading: Icon(Icons.redeem, color: Colors.amber[800]),
+                        title: Text(
+                          rewardTitle,
+                          style: TextStyle(
+                            color: colorScheme.onSurface,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        subtitle: Text(
+                          'Needs $pointsNeeded points',
+                          style: TextStyle(color: colorScheme.onSurfaceVariant),
+                        ),
                         trailing: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.amber[800],
-                              foregroundColor: Colors.white),
+                            backgroundColor: Colors.amber[800],
+                            foregroundColor: Colors.white,
+                          ),
                           onPressed: () async {
                             DocumentSnapshot userDoc = await FirebaseFirestore
                                 .instance
@@ -277,7 +305,8 @@ class _RewardsScreenState extends State<RewardsScreen> {
                                 .get();
                             int currentPoints = 0;
                             if (userDoc.exists) {
-                              currentPoints = (userDoc.data()
+                              currentPoints =
+                                  (userDoc.data()
                                       as Map<String, dynamic>)['points'] ??
                                   0;
                             }
@@ -287,31 +316,35 @@ class _RewardsScreenState extends State<RewardsScreen> {
                                   .collection('users')
                                   .doc(userId)
                                   .update({
-                                'points': currentPoints - pointsNeeded
-                              });
+                                    'points': currentPoints - pointsNeeded,
+                                  });
 
                               await FirebaseFirestore.instance
                                   .collection('users')
                                   .doc(userId)
                                   .collection('my_coupons')
                                   .add({
-                                'title': rewardTitle,
-                                'discountValue': 5.00,
-                                'claimedAt': FieldValue.serverTimestamp(),
-                              });
+                                    'title': rewardTitle,
+                                    'discountValue': 5.00,
+                                    'claimedAt': FieldValue.serverTimestamp(),
+                                  });
 
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                    content: Text(
-                                        'Redeemed successfully! Check your Cart to use it.'),
-                                    backgroundColor: Colors.green),
+                                  content: Text(
+                                    'Redeemed successfully! Check your Cart to use it.',
+                                  ),
+                                  backgroundColor: Colors.green,
+                                ),
                               );
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                    content: Text(
-                                        'Not enough points in your account!'),
-                                    backgroundColor: Colors.red),
+                                  content: Text(
+                                    'Not enough points in your account!',
+                                  ),
+                                  backgroundColor: Colors.red,
+                                ),
                               );
                             }
                           },

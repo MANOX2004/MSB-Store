@@ -27,24 +27,17 @@ class _OrdersScreenState extends State<OrdersScreen> {
   @override
   Widget build(BuildContext context) {
     final User? currentUser = FirebaseAuth.instance.currentUser;
+    final colorScheme = Theme.of(context).colorScheme;
 
     if (currentUser == null) {
       return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color(0xFF1E222B),
-          title: Text('My Orders', style: TextStyle(color: Colors.white)),
-          iconTheme: IconThemeData(color: Colors.white),
-        ),
+        appBar: AppBar(title: const Text('My Orders')),
         body: Center(child: CircularProgressIndicator()),
       );
     }
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color(0xFF1E222B),
-        title: Text('My Orders', style: TextStyle(color: Colors.white)),
-        iconTheme: IconThemeData(color: Colors.white),
-      ),
+      appBar: AppBar(title: const Text('My Orders')),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('orders')
@@ -73,9 +66,16 @@ class _OrdersScreenState extends State<OrdersScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.shopping_bag_outlined, size: 70, color: Colors.grey),
+                  Icon(
+                    Icons.shopping_bag_outlined,
+                    size: 70,
+                    color: Colors.grey,
+                  ),
                   SizedBox(height: 16),
-                  Text('No orders found!', style: TextStyle(fontSize: 18, color: Colors.grey)),
+                  Text(
+                    'No orders found!',
+                    style: TextStyle(fontSize: 18, color: Colors.grey),
+                  ),
                 ],
               ),
             );
@@ -84,8 +84,10 @@ class _OrdersScreenState extends State<OrdersScreen> {
           var orderDocs = snapshot.data!.docs;
 
           orderDocs.sort((a, b) {
-            var aTime = (a.data() as Map<String, dynamic>)['timestamp'] as Timestamp?;
-            var bTime = (b.data() as Map<String, dynamic>)['timestamp'] as Timestamp?;
+            var aTime =
+                (a.data() as Map<String, dynamic>)['timestamp'] as Timestamp?;
+            var bTime =
+                (b.data() as Map<String, dynamic>)['timestamp'] as Timestamp?;
             if (aTime == null || bTime == null) return 0;
             return bTime.compareTo(aTime);
           });
@@ -95,18 +97,22 @@ class _OrdersScreenState extends State<OrdersScreen> {
             itemCount: orderDocs.length,
             itemBuilder: (context, index) {
               var orderData = orderDocs[index].data() as Map<String, dynamic>;
-              
+
               String status = orderData['status'] ?? 'Pending';
-              String paymentMethod = orderData['paymentMethod'] ?? 'Cash on Delivery';
+              String paymentMethod =
+                  orderData['paymentMethod'] ?? 'Cash on Delivery';
               List items = orderData['items'] ?? [];
-              
+
               // Total Amount එක නිවැරදිව ලබා ගැනීම හෝ ගණනය කර ගැනීම
               double total = 0.0;
-              if (orderData.containsKey('total') && orderData['total'] != null) {
+              if (orderData.containsKey('total') &&
+                  orderData['total'] != null) {
                 total = (orderData['total'] ?? 0.0).toDouble();
-              } else if (orderData.containsKey('totalAmount') && orderData['totalAmount'] != null) {
+              } else if (orderData.containsKey('totalAmount') &&
+                  orderData['totalAmount'] != null) {
                 total = (orderData['totalAmount'] ?? 0.0).toDouble();
-              } else if (orderData.containsKey('subtotal') && orderData['subtotal'] != null) {
+              } else if (orderData.containsKey('subtotal') &&
+                  orderData['subtotal'] != null) {
                 total = (orderData['subtotal'] ?? 0.0).toDouble();
               } else {
                 for (var item in items) {
@@ -115,12 +121,13 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   total += (itemPrice * itemQty);
                 }
               }
-              
+
               var timestamp = orderData['timestamp'] as Timestamp?;
               String dateStr = '';
               if (timestamp != null) {
                 DateTime date = timestamp.toDate();
-                dateStr = '${date.year}-${date.month}-${date.day} ${date.hour}:${date.minute}';
+                dateStr =
+                    '${date.year}-${date.month}-${date.day} ${date.hour}:${date.minute}';
               }
 
               return Card(
@@ -140,18 +147,28 @@ class _OrdersScreenState extends State<OrdersScreen> {
                         children: [
                           Text(
                             'Order #${orderDocs[index].id.substring(0, 6).toUpperCase()}',
-                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
                           ),
                           Container(
-                            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 4,
+                            ),
                             decoration: BoxDecoration(
-                              color: status == 'Pending' ? Colors.orange.shade100 : Colors.green.shade100,
+                              color: status == 'Pending'
+                                  ? Colors.orange.shade100
+                                  : Colors.green.shade100,
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: Text(
                               status,
                               style: TextStyle(
-                                color: status == 'Pending' ? Colors.orange.shade800 : Colors.green.shade800,
+                                color: status == 'Pending'
+                                    ? Colors.orange.shade800
+                                    : Colors.green.shade800,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 12,
                               ),
@@ -160,12 +177,27 @@ class _OrdersScreenState extends State<OrdersScreen> {
                         ],
                       ),
                       SizedBox(height: 8),
-                      Text('Date: $dateStr', style: TextStyle(color: Colors.grey[600], fontSize: 13)),
-                      Text('Payment: $paymentMethod', style: TextStyle(color: Colors.grey[800], fontSize: 13)),
+                      Text(
+                        'Date: $dateStr',
+                        style: TextStyle(color: Colors.grey[600], fontSize: 13),
+                      ),
+                      Text(
+                        'Payment: $paymentMethod',
+                        style: TextStyle(
+                          color: colorScheme.onSurfaceVariant,
+                          fontSize: 13,
+                        ),
+                      ),
                       Divider(height: 16, thickness: 1),
 
                       // Ordered Items List with Images & ProductDetailScreen Navigation
-                      Text('Items:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                      Text(
+                        'Items:',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
                       SizedBox(height: 8),
                       ListView.builder(
                         shrinkWrap: true,
@@ -176,7 +208,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
                           String productName = item['name'] ?? 'Product Name';
                           double price = (item['price'] ?? 0.0).toDouble();
                           int quantity = item['quantity'] ?? 1;
-                          String imageUrl = item['image'] ?? item['imageUrl'] ?? '';
+                          String imageUrl =
+                              item['image'] ?? item['imageUrl'] ?? '';
 
                           return InkWell(
                             onTap: () {
@@ -190,8 +223,11 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                       'name': productName,
                                       'price': price,
                                       'image': imageUrl,
-                                      'description': item['description'] ?? 'No description available for this product.',
-                                      'seller': item['seller'] ?? 'Official Store',
+                                      'description':
+                                          item['description'] ??
+                                          'No description available for this product.',
+                                      'seller':
+                                          item['seller'] ?? 'Official Store',
                                       'rating': item['rating'] ?? 4.5,
                                     },
                                   ),
@@ -199,7 +235,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
                               );
                             },
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 6.0),
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 6.0,
+                              ),
                               child: Row(
                                 children: [
                                   // Product Image
@@ -211,32 +249,48 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                             width: 50,
                                             height: 50,
                                             fit: BoxFit.cover,
-                                            errorBuilder: (context, error, stackTrace) =>
-                                                Icon(Icons.image_not_supported, size: 50, color: Colors.grey),
+                                            errorBuilder:
+                                                (context, error, stackTrace) =>
+                                                    Icon(
+                                                      Icons.image_not_supported,
+                                                      size: 50,
+                                                      color: Colors.grey,
+                                                    ),
                                           )
                                         : Container(
                                             width: 50,
                                             height: 50,
-                                            color: Colors.grey[200],
-                                            child: Icon(Icons.image, color: Colors.grey),
+                                            color: colorScheme
+                                                .surfaceContainerHighest,
+                                            child: Icon(
+                                              Icons.image,
+                                              color: Colors.grey,
+                                            ),
                                           ),
                                   ),
                                   SizedBox(width: 12),
                                   // Product Details
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           productName,
-                                          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 14,
+                                          ),
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                         ),
                                         SizedBox(height: 4),
                                         Text(
                                           'Qty: $quantity',
-                                          style: TextStyle(color: Colors.grey[600], fontSize: 12),
+                                          style: TextStyle(
+                                            color: Colors.grey[600],
+                                            fontSize: 12,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -244,7 +298,11 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                   // Item Price
                                   Text(
                                     'Rs. ${(price * quantity).toStringAsFixed(2)}',
-                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.black87),
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                      color: colorScheme.onSurface,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -258,10 +316,20 @@ class _OrdersScreenState extends State<OrdersScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Total Amount:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                          Text(
+                            'Total Amount:',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            ),
+                          ),
                           Text(
                             'Rs. ${total.toStringAsFixed(2)}',
-                            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.amber[900], fontSize: 16),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.amber[900],
+                              fontSize: 16,
+                            ),
                           ),
                         ],
                       ),

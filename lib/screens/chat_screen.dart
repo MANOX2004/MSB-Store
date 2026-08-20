@@ -12,8 +12,9 @@ class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _messageController = TextEditingController();
   String selectedSupportType = 'AI Bot';
 
-  String get _currentCollectionName =>
-      selectedSupportType == 'AI Bot' ? 'ai_support_chats' : 'agent_support_chats';
+  String get _currentCollectionName => selectedSupportType == 'AI Bot'
+      ? 'ai_support_chats'
+      : 'agent_support_chats';
 
   void _sendBotReply(String userMessage) async {
     String reply = "";
@@ -22,19 +23,16 @@ class _ChatScreenState extends State<ChatScreen> {
     if (lowerMsg.contains("hello") ||
         lowerMsg.contains("hi") ||
         lowerMsg.contains("hey")) {
-      reply =
-          "Hello! Welcome to MSB Store Bot. How can I assist you today?";
+      reply = "Hello! Welcome to MSB Store Bot. How can I assist you today?";
     } else if (lowerMsg.contains("price") ||
         lowerMsg.contains("cost") ||
         lowerMsg.contains("product")) {
       reply =
           "You can browse all our products and prices directly from the Shop section in the app!";
-    } else if (lowerMsg.contains("delivery") ||
-        lowerMsg.contains("shipping")) {
+    } else if (lowerMsg.contains("delivery") || lowerMsg.contains("shipping")) {
       reply =
           "We offer secure island-wide delivery services for all customer orders.";
-    } else if (lowerMsg.contains("payment") ||
-        lowerMsg.contains("card")) {
+    } else if (lowerMsg.contains("payment") || lowerMsg.contains("card")) {
       reply =
           "We support both online card payments and Cash on Delivery options.";
     } else {
@@ -57,12 +55,14 @@ class _ChatScreenState extends State<ChatScreen> {
     if (user == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text('Please login first to send messages!'),
-            backgroundColor: Colors.red),
+          content: Text('Please login first to send messages!'),
+          backgroundColor: Colors.red,
+        ),
       );
       Navigator.push(
-              context, MaterialPageRoute(builder: (context) => LoginScreen()))
-          .then((_) => setState(() {}));
+        context,
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+      ).then((_) => setState(() {}));
       return;
     }
 
@@ -86,16 +86,18 @@ class _ChatScreenState extends State<ChatScreen> {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text('Error sending message: $e'),
-            backgroundColor: Colors.red),
+          content: Text('Error sending message: $e'),
+          backgroundColor: Colors.red,
+        ),
       );
     }
   }
 
   void _showSupportSelector() {
+    final colorScheme = Theme.of(context).colorScheme;
     showModalBottomSheet(
       context: context,
-      backgroundColor: Color(0xFF1E222B),
+      backgroundColor: colorScheme.surface,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -109,23 +111,36 @@ class _ChatScreenState extends State<ChatScreen> {
               Text(
                 "Select Chat Support",
                 style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold),
+                  color: colorScheme.onSurface,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               SizedBox(height: 10),
               Text(
                 "Choose who you want to talk with:",
-                style: TextStyle(color: Colors.white70, fontSize: 13),
+                style: TextStyle(
+                  color: colorScheme.onSurfaceVariant,
+                  fontSize: 13,
+                ),
               ),
               SizedBox(height: 15),
               ListTile(
                 leading: Icon(Icons.smart_toy, color: Colors.amber),
-                title: Text("AI Bot",
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold)),
-                subtitle: Text("Instant automatic replies",
-                    style: TextStyle(color: Colors.white54, fontSize: 12)),
+                title: Text(
+                  "AI Bot",
+                  style: TextStyle(
+                    color: colorScheme.onSurface,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                subtitle: Text(
+                  "Instant automatic replies",
+                  style: TextStyle(
+                    color: colorScheme.onSurfaceVariant,
+                    fontSize: 12,
+                  ),
+                ),
                 trailing: selectedSupportType == 'AI Bot'
                     ? Icon(Icons.check_circle, color: Colors.amber)
                     : null,
@@ -136,14 +151,23 @@ class _ChatScreenState extends State<ChatScreen> {
                   Navigator.pop(context);
                 },
               ),
-              Divider(color: Colors.white24),
+              Divider(color: colorScheme.outlineVariant),
               ListTile(
                 leading: Icon(Icons.support_agent, color: Colors.blueAccent),
-                title: Text("Live Agent",
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold)),
-                subtitle: Text("Talk with a real human support member",
-                    style: TextStyle(color: Colors.white54, fontSize: 12)),
+                title: Text(
+                  "Live Agent",
+                  style: TextStyle(
+                    color: colorScheme.onSurface,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                subtitle: Text(
+                  "Talk with a real human support member",
+                  style: TextStyle(
+                    color: colorScheme.onSurfaceVariant,
+                    fontSize: 12,
+                  ),
+                ),
                 trailing: selectedSupportType == 'Live Agent'
                     ? Icon(Icons.check_circle, color: Colors.blueAccent)
                     : null,
@@ -165,12 +189,11 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     User? currentUser = FirebaseAuth.instance.currentUser;
     bool isBotActive = (selectedSupportType == 'AI Bot');
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF1E222B),
-        title: Text('Customer Support',
-            style: TextStyle(color: Colors.white, fontSize: 18)),
+        title: const Text('Customer Support', style: TextStyle(fontSize: 18)),
         actions: [
           if (currentUser != null)
             Padding(
@@ -180,20 +203,17 @@ class _ChatScreenState extends State<ChatScreen> {
                   onTap: _showSupportSelector,
                   borderRadius: BorderRadius.circular(20),
                   child: Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
-                      color: Colors.white10,
+                      color: colorScheme.surfaceContainerHighest,
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.white24),
+                      border: Border.all(color: colorScheme.outlineVariant),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Icon(
-                          isBotActive
-                              ? Icons.smart_toy
-                              : Icons.support_agent,
+                          isBotActive ? Icons.smart_toy : Icons.support_agent,
                           size: 16,
                           color: Colors.amber,
                         ),
@@ -201,13 +221,17 @@ class _ChatScreenState extends State<ChatScreen> {
                         Text(
                           "Chat with: $selectedSupportType",
                           style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500),
+                            color: colorScheme.onSurface,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                         SizedBox(width: 4),
-                        Icon(Icons.keyboard_arrow_down,
-                            size: 16, color: Colors.white70),
+                        Icon(
+                          Icons.keyboard_arrow_down,
+                          size: 16,
+                          color: colorScheme.onSurfaceVariant,
+                        ),
                       ],
                     ),
                   ),
@@ -223,18 +247,24 @@ class _ChatScreenState extends State<ChatScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.support_agent,
-                        size: 70, color: Colors.amber[800]),
+                    Icon(
+                      Icons.support_agent,
+                      size: 70,
+                      color: Colors.amber[800],
+                    ),
                     SizedBox(height: 16),
-                    Text('Login Required',
-                        style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.bold)),
+                    Text(
+                      'Login Required',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     SizedBox(height: 8),
                     Text(
                       'Please login to chat with our support team or bot.',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: Colors.grey[600], fontSize: 14),
+                      style: TextStyle(color: Colors.grey[600], fontSize: 14),
                     ),
                     SizedBox(height: 24),
                     ElevatedButton(
@@ -242,17 +272,19 @@ class _ChatScreenState extends State<ChatScreen> {
                         backgroundColor: Colors.amber[800],
                         foregroundColor: Colors.white,
                         padding: EdgeInsets.symmetric(
-                            horizontal: 32, vertical: 12),
+                          horizontal: 32,
+                          vertical: 12,
+                        ),
                       ),
                       onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => LoginScreen()),
+                            builder: (context) => LoginScreen(),
+                          ),
                         ).then((_) => setState(() {}));
                       },
-                      child: Text('Login Now',
-                          style: TextStyle(fontSize: 16)),
+                      child: Text('Login Now', style: TextStyle(fontSize: 16)),
                     ),
                   ],
                 ),
@@ -261,19 +293,18 @@ class _ChatScreenState extends State<ChatScreen> {
           : Column(
               children: [
                 Container(
-                  color: isBotActive ? Colors.amber[50] : Colors.blue[50],
-                  padding:
-                      EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+                  color: isBotActive
+                      ? colorScheme.primaryContainer
+                      : colorScheme.secondaryContainer,
+                  padding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
                   child: Row(
                     children: [
                       Icon(
-                        isBotActive
-                            ? Icons.smart_toy
-                            : Icons.support_agent,
+                        isBotActive ? Icons.smart_toy : Icons.support_agent,
                         size: 18,
                         color: isBotActive
                             ? Colors.amber[800]
-                            : Colors.blue[800],
+                            : colorScheme.secondary,
                       ),
                       SizedBox(width: 8),
                       Text(
@@ -281,9 +312,10 @@ class _ChatScreenState extends State<ChatScreen> {
                             ? "AI Chat Bot is active. Type a message for instant replies."
                             : "Live Agent mode active. Our support team will respond soon.",
                         style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black87),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color: colorScheme.onSurface,
+                        ),
                       ),
                     ],
                   ),
@@ -295,13 +327,10 @@ class _ChatScreenState extends State<ChatScreen> {
                         .where('userId', isEqualTo: currentUser.uid)
                         .snapshots(),
                     builder: (context, snapshot) {
-                      if (snapshot.connectionState ==
-                          ConnectionState.waiting) {
-                        return Center(
-                            child: CircularProgressIndicator());
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
                       }
-                      if (!snapshot.hasData ||
-                          snapshot.data!.docs.isEmpty) {
+                      if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                         return Center(
                           child: Text(
                             isBotActive
@@ -328,8 +357,8 @@ class _ChatScreenState extends State<ChatScreen> {
                         padding: EdgeInsets.all(16),
                         itemCount: messages.length,
                         itemBuilder: (context, index) {
-                          var msgData = messages[index].data()
-                              as Map<String, dynamic>;
+                          var msgData =
+                              messages[index].data() as Map<String, dynamic>;
                           String message = msgData['message'] ?? '';
                           String sender = msgData['sender'] ?? 'user';
                           bool isUser = sender == 'user';
@@ -344,51 +373,53 @@ class _ChatScreenState extends State<ChatScreen> {
                             child: Container(
                               margin: EdgeInsets.symmetric(vertical: 4),
                               padding: EdgeInsets.symmetric(
-                                  horizontal: 14, vertical: 10),
+                                horizontal: 14,
+                                vertical: 10,
+                              ),
                               decoration: BoxDecoration(
                                 color: isUser
                                     ? Colors.amber[800]
                                     : (isBot
-                                        ? Colors.blueGrey[100]
-                                        : (isAgent
-                                            ? Colors.blue[700]
-                                            : Colors.grey[200])),
+                                          ? colorScheme.surfaceContainerHighest
+                                          : (isAgent
+                                                ? Colors.blue[700]
+                                                : colorScheme
+                                                      .surfaceContainerHighest)),
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: Column(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   if (isBot)
                                     Padding(
-                                      padding:
-                                          EdgeInsets.only(bottom: 2),
+                                      padding: EdgeInsets.only(bottom: 2),
                                       child: Text(
                                         "AI Bot",
                                         style: TextStyle(
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.blueGrey[800]),
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold,
+                                          color: colorScheme.onSurfaceVariant,
+                                        ),
                                       ),
                                     ),
                                   if (isAgent)
                                     Padding(
-                                      padding:
-                                          EdgeInsets.only(bottom: 2),
+                                      padding: EdgeInsets.only(bottom: 2),
                                       child: Text(
                                         "Live Agent",
                                         style: TextStyle(
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white70),
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white70,
+                                        ),
                                       ),
                                     ),
                                   Text(
                                     message,
                                     style: TextStyle(
                                       color: isUser || isAgent
-                                          ? Colors.white
-                                          : Colors.black87,
+                                          ? colorScheme.onPrimary
+                                          : colorScheme.onSurface,
                                       fontSize: 15,
                                     ),
                                   ),
@@ -404,12 +435,13 @@ class _ChatScreenState extends State<ChatScreen> {
                 Container(
                   padding: EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: colorScheme.surface,
                     boxShadow: [
                       BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 4,
-                          offset: Offset(0, -2))
+                        color: Colors.black12,
+                        blurRadius: 4,
+                        offset: Offset(0, -2),
+                      ),
                     ],
                   ),
                   child: Row(
@@ -422,12 +454,15 @@ class _ChatScreenState extends State<ChatScreen> {
                                 ? 'Ask the bot anything...'
                                 : 'Message the live agent...',
                             border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                borderSide: BorderSide.none),
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide.none,
+                            ),
                             filled: true,
-                            fillColor: Colors.grey[100],
+                            fillColor: colorScheme.surfaceContainerHighest,
                             contentPadding: EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 8),
+                              horizontal: 16,
+                              vertical: 8,
+                            ),
                           ),
                           onSubmitted: (_) => _sendMessage(),
                         ),
@@ -436,8 +471,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       CircleAvatar(
                         backgroundColor: Colors.amber[800],
                         child: IconButton(
-                          icon: Icon(Icons.send,
-                              color: Colors.white, size: 18),
+                          icon: Icon(Icons.send, color: Colors.white, size: 18),
                           onPressed: _sendMessage,
                         ),
                       ),

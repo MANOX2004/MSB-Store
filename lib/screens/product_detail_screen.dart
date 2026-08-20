@@ -8,7 +8,8 @@ import 'login_screen.dart'; // ඔබේ Login screen එක ඇති ෆයි
 class ProductDetailScreen extends StatefulWidget {
   final Map<String, dynamic> productData;
 
-  const ProductDetailScreen({Key? key, required this.productData}) : super(key: key);
+  const ProductDetailScreen({Key? key, required this.productData})
+    : super(key: key);
 
   @override
   _ProductDetailScreenState createState() => _ProductDetailScreenState();
@@ -22,22 +23,20 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   @override
   Widget build(BuildContext context) {
     var product = widget.productData;
-    
+
     String productId = product['id'] ?? product['name'] ?? 'unknown_product';
     String name = product['name'] ?? 'Product Name';
     double price = (product['price'] ?? 0.0).toDouble();
     String image = product['image'] ?? '';
-    String description = product['description'] ?? 'No description available for this product.';
-    String seller = product['seller'] ?? product['shopName'] ?? 'Official Store';
+    String description =
+        product['description'] ?? 'No description available for this product.';
+    String seller =
+        product['seller'] ?? product['shopName'] ?? 'Official Store';
     double rating = (product['rating'] ?? 4.5).toDouble();
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      backgroundColor: Colors.grey[100],
-      appBar: AppBar(
-        title: Text(name, style: TextStyle(color: Colors.white, fontSize: 18)),
-        backgroundColor: Color(0xFF1E222B),
-        iconTheme: IconThemeData(color: Colors.white),
-      ),
+      appBar: AppBar(title: Text(name, style: const TextStyle(fontSize: 18))),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,32 +45,58 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             Container(
               height: 300,
               width: double.infinity,
-              color: Colors.white,
+              color: colorScheme.surface,
               child: image.isNotEmpty
-                  ? Image.network(image, fit: BoxFit.contain,
-                      errorBuilder: (c, e, s) => Icon(Icons.image_not_supported, size: 80, color: Colors.grey))
+                  ? Image.network(
+                      image,
+                      fit: BoxFit.contain,
+                      errorBuilder: (c, e, s) => Icon(
+                        Icons.image_not_supported,
+                        size: 80,
+                        color: Colors.grey,
+                      ),
+                    )
                   : Icon(Icons.shopping_bag, size: 80, color: Colors.grey),
             ),
-            
+
             // Product Main Info
             Container(
-              color: Colors.white,
+              color: colorScheme.surface,
               padding: EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(name, style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black87)),
+                  Text(
+                    name,
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: colorScheme.onSurface,
+                    ),
+                  ),
                   SizedBox(height: 8),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Rs. ${price.toStringAsFixed(2)}', 
-                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.amber[900])),
+                      Text(
+                        'Rs. ${price.toStringAsFixed(2)}',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.amber[900],
+                        ),
+                      ),
                       Row(
                         children: [
                           Icon(Icons.star, color: Colors.amber, size: 20),
                           SizedBox(width: 4),
-                          Text('$rating / 5.0', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                          Text(
+                            '$rating / 5.0',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
                         ],
                       ),
                     ],
@@ -81,8 +106,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     children: [
                       Icon(Icons.store, size: 18, color: Colors.grey[600]),
                       SizedBox(width: 6),
-                      Text('Sold by: ', style: TextStyle(color: Colors.grey[600])),
-                      Text(seller, style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue[800])),
+                      Text(
+                        'Sold by: ',
+                        style: TextStyle(color: Colors.grey[600]),
+                      ),
+                      Text(
+                        seller,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue[800],
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -93,12 +127,15 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
             // Quantity Selector
             Container(
-              color: Colors.white,
+              color: colorScheme.surface,
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Quantity:', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                  Text(
+                    'Quantity:',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
                   Row(
                     children: [
                       IconButton(
@@ -107,7 +144,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           if (quantity > 1) setState(() => quantity--);
                         },
                       ),
-                      Text('$quantity', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                      Text(
+                        '$quantity',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       IconButton(
                         icon: Icon(Icons.add_circle_outline),
                         onPressed: () {
@@ -124,15 +167,25 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
             // Description Section
             Container(
-              color: Colors.white,
+              color: colorScheme.surface,
               width: double.infinity,
               padding: EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Description', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  Text(
+                    'Description',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
                   SizedBox(height: 8),
-                  Text(description, style: TextStyle(fontSize: 14, color: Colors.grey[700], height: 1.4)),
+                  Text(
+                    description,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: colorScheme.onSurfaceVariant,
+                      height: 1.4,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -141,30 +194,41 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
             // Reviews & Ratings Section
             Container(
-              color: Colors.white,
+              color: colorScheme.surface,
               padding: EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Ratings & Reviews', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  Text(
+                    'Ratings & Reviews',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
                   SizedBox(height: 12),
-                  
+
                   // Add Review Form
                   Card(
                     elevation: 0,
-                    color: Colors.grey[50],
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8), side: BorderSide(color: Colors.grey.shade300)),
+                    color: colorScheme.surfaceContainerHighest,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      side: BorderSide(color: Colors.grey.shade300),
+                    ),
                     child: Padding(
                       padding: EdgeInsets.all(12),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Rate this product:', style: TextStyle(fontWeight: FontWeight.bold)),
+                          Text(
+                            'Rate this product:',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
                           Row(
                             children: List.generate(5, (index) {
                               return IconButton(
                                 icon: Icon(
-                                  index < _userRating ? Icons.star : Icons.star_border,
+                                  index < _userRating
+                                      ? Icons.star
+                                      : Icons.star_border,
                                   color: Colors.amber,
                                 ),
                                 onPressed: () {
@@ -181,7 +245,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               hintText: 'Write your review here...',
                               border: OutlineInputBorder(),
                               filled: true,
-                              fillColor: Colors.white,
+                              fillColor: colorScheme.surface,
                               isDense: true,
                             ),
                             maxLines: 2,
@@ -190,23 +254,31 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           Align(
                             alignment: Alignment.centerRight,
                             child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF1E222B), foregroundColor: Colors.white),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: colorScheme.primary,
+                                foregroundColor: colorScheme.onPrimary,
+                              ),
                               onPressed: () async {
-                                if (_reviewController.text.trim().isEmpty) return;
-                                
+                                if (_reviewController.text.trim().isEmpty)
+                                  return;
+
                                 User? user = FirebaseAuth.instance.currentUser;
-                                
+
                                 if (user == null) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text('Please log in to submit a review!'),
+                                      content: Text(
+                                        'Please log in to submit a review!',
+                                      ),
                                       backgroundColor: Colors.red[700],
                                     ),
                                   );
-                                  
+
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => LoginScreen()),
+                                    MaterialPageRoute(
+                                      builder: (context) => LoginScreen(),
+                                    ),
                                   );
                                   return;
                                 }
@@ -217,25 +289,34 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                       .doc(productId)
                                       .collection('reviews')
                                       .add({
-                                    'userName': user.displayName ?? user.email?.split('@')[0] ?? 'User',
-                                    'userId': user.uid,
-                                    'rating': _userRating,
-                                    'comment': _reviewController.text.trim(),
-                                    'timestamp': FieldValue.serverTimestamp(),
-                                  });
-                                  
+                                        'userName':
+                                            user.displayName ??
+                                            user.email?.split('@')[0] ??
+                                            'User',
+                                        'userId': user.uid,
+                                        'rating': _userRating,
+                                        'comment': _reviewController.text
+                                            .trim(),
+                                        'timestamp':
+                                            FieldValue.serverTimestamp(),
+                                      });
+
                                   _reviewController.clear();
-                                  
+
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text('Review submitted successfully!'),
+                                      content: Text(
+                                        'Review submitted successfully!',
+                                      ),
                                       backgroundColor: Colors.green[700],
                                     ),
                                   );
                                 } catch (e) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text('Failed to submit review: $e'),
+                                      content: Text(
+                                        'Failed to submit review: $e',
+                                      ),
                                       backgroundColor: Colors.red[700],
                                     ),
                                   );
@@ -264,36 +345,56 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                         return Padding(
                           padding: EdgeInsets.symmetric(vertical: 8.0),
-                          child: Text('No reviews yet. Be the first to review!', style: TextStyle(color: Colors.grey)),
+                          child: Text(
+                            'No reviews yet. Be the first to review!',
+                            style: TextStyle(color: Colors.grey),
+                          ),
                         );
                       }
-                      
+
                       var reviews = snapshot.data!.docs;
                       return ListView.builder(
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
                         itemCount: reviews.length,
                         itemBuilder: (context, index) {
-                          var rev = reviews[index].data() as Map<String, dynamic>;
+                          var rev =
+                              reviews[index].data() as Map<String, dynamic>;
                           return ListTile(
                             contentPadding: EdgeInsets.zero,
                             leading: CircleAvatar(
                               backgroundColor: Colors.blueGrey,
-                              child: Text((rev['userName'] ?? 'U')[0].toUpperCase(), style: TextStyle(color: Colors.white)),
+                              child: Text(
+                                (rev['userName'] ?? 'U')[0].toUpperCase(),
+                                style: TextStyle(color: Colors.white),
+                              ),
                             ),
                             title: Row(
                               children: [
-                                Text(rev['userName'] ?? 'User', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                                Text(
+                                  rev['userName'] ?? 'User',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                  ),
+                                ),
                                 SizedBox(width: 8),
                                 Row(
                                   children: List.generate(
                                     (rev['rating'] ?? 5).toInt(),
-                                    (i) => Icon(Icons.star, size: 14, color: Colors.amber),
+                                    (i) => Icon(
+                                      Icons.star,
+                                      size: 14,
+                                      color: Colors.amber,
+                                    ),
                                   ),
                                 ),
                               ],
                             ),
-                            subtitle: Text(rev['comment'] ?? '', style: TextStyle(color: Colors.black87)),
+                            subtitle: Text(
+                              rev['comment'] ?? '',
+                              style: TextStyle(color: colorScheme.onSurface),
+                            ),
                           );
                         },
                       );
@@ -309,18 +410,20 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       // Bottom Bar with Add to Cart & Buy Now
       bottomSheet: Container(
         padding: EdgeInsets.all(12),
-        color: Colors.white,
+        color: colorScheme.surface,
         child: Row(
           children: [
             Expanded(
               child: OutlinedButton(
                 style: OutlinedButton.styleFrom(
                   padding: EdgeInsets.symmetric(vertical: 14),
-                  side: BorderSide(color: Color(0xFF1E222B)),
+                  side: BorderSide(color: colorScheme.primary),
                 ),
                 onPressed: () {
                   setState(() {
-                    var existing = cartItems.indexWhere((element) => element['name'] == name);
+                    var existing = cartItems.indexWhere(
+                      (element) => element['name'] == name,
+                    );
                     if (existing >= 0) {
                       cartItems[existing]['quantity'] += quantity;
                     } else {
@@ -340,7 +443,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ),
                   );
                 },
-                child: Text('Add to Cart', style: TextStyle(color: Color(0xFF1E222B), fontWeight: FontWeight.bold)),
+                child: Text(
+                  'Add to Cart',
+                  style: TextStyle(
+                    color: colorScheme.primary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
             SizedBox(width: 12),
@@ -354,7 +463,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 onPressed: () {
                   // Buy Now ඔබන විට Login වී ඇද්දැයි පරීක්ෂා කිරීම
                   User? user = FirebaseAuth.instance.currentUser;
-                  
+
                   if (user == null) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
@@ -362,7 +471,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         backgroundColor: Colors.red[700],
                       ),
                     );
-                    
+
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => LoginScreen()),
@@ -378,7 +487,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ),
                   );
                 },
-                child: Text('Buy Now', style: TextStyle(fontWeight: FontWeight.bold)),
+                child: Text(
+                  'Buy Now',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
             ),
           ],

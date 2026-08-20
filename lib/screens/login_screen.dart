@@ -56,9 +56,10 @@ class _LoginScreenState extends State<LoginScreen> {
               Text(
                 isLogin ? "Login Successful!" : "Account Created!",
                 style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold),
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ],
           ),
@@ -73,28 +74,26 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() => isLoading = false);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text('Error: ${e.toString()}'),
-            backgroundColor: Colors.red),
+          content: Text('Error: ${e.toString()}'),
+          backgroundColor: Colors.red,
+        ),
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
-      backgroundColor: Color(0xFF1E222B),
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        iconTheme: IconThemeData(color: Colors.white),
-      ),
+      appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0),
       body: Center(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(24),
           child: Container(
             padding: EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: colorScheme.surface,
               borderRadius: BorderRadius.circular(16),
             ),
             child: Column(
@@ -103,30 +102,37 @@ class _LoginScreenState extends State<LoginScreen> {
                 Text(
                   isLogin ? 'MSB Store Login' : 'Create Account',
                   style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.amber[800]),
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.amber[800],
+                  ),
                 ),
                 SizedBox(height: 20),
                 if (!isLogin) ...[
                   TextField(
                     controller: nameController,
                     decoration: InputDecoration(
-                        labelText: 'Full Name', border: OutlineInputBorder()),
+                      labelText: 'Full Name',
+                      border: OutlineInputBorder(),
+                    ),
                   ),
                   SizedBox(height: 12),
                 ],
                 TextField(
                   controller: emailController,
                   decoration: InputDecoration(
-                      labelText: 'Email Address', border: OutlineInputBorder()),
+                    labelText: 'Email Address',
+                    border: OutlineInputBorder(),
+                  ),
                 ),
                 SizedBox(height: 12),
                 TextField(
                   controller: passwordController,
                   obscureText: true,
                   decoration: InputDecoration(
-                      labelText: 'Password', border: OutlineInputBorder()),
+                    labelText: 'Password',
+                    border: OutlineInputBorder(),
+                  ),
                 ),
                 SizedBox(height: 20),
                 isLoading
@@ -136,17 +142,20 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 45,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.amber[800],
-                              foregroundColor: Colors.white),
+                            backgroundColor: Colors.amber[800],
+                            foregroundColor: Colors.white,
+                          ),
                           onPressed: _submitAuth,
                           child: Text(isLogin ? 'Login' : 'Register'),
                         ),
                       ),
                 TextButton(
                   onPressed: () => setState(() => isLogin = !isLogin),
-                  child: Text(isLogin
-                      ? "Don't have an account? Register"
-                      : "Already have an account? Login"),
+                  child: Text(
+                    isLogin
+                        ? "Don't have an account? Register"
+                        : "Already have an account? Login",
+                  ),
                 ),
               ],
             ),

@@ -33,7 +33,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
 
     try {
-      var doc = await FirebaseFirestore.instance.collection('users').doc(currentUser.uid).get();
+      var doc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUser.uid)
+          .get();
       if (doc.exists && doc.data() != null) {
         setState(() {
           _firestoreImageUrl = doc.data()!['profileImageUrl'];
@@ -56,13 +59,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
       MaterialPageRoute(builder: (context) => EditProfileScreen()),
     ).then((_) {
       setState(() {});
-      _fetchUserDataFromFirestore(); 
-    }); 
+      _fetchUserDataFromFirestore();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     User? currentUser = FirebaseAuth.instance.currentUser;
+    final colorScheme = Theme.of(context).colorScheme;
 
     // Base64 හෝ Network ලින්ක් එක නිවැරදිව ImageProvider එකක් බවට හැරවීම
     ImageProvider? getProfileImage() {
@@ -79,18 +83,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
         }
         return NetworkImage(_firestoreImageUrl!);
       }
-      
+
       if (currentUser?.photoURL != null && currentUser!.photoURL!.isNotEmpty) {
         return NetworkImage(currentUser.photoURL!);
       }
-      
+
       return null;
     }
 
     String displayName = '';
     if (_firestoreName != null && _firestoreName!.isNotEmpty) {
       displayName = _firestoreName!;
-    } else if (currentUser?.displayName != null && currentUser!.displayName!.isNotEmpty) {
+    } else if (currentUser?.displayName != null &&
+        currentUser!.displayName!.isNotEmpty) {
       displayName = currentUser.displayName!;
     } else {
       displayName = 'No Name Set';
@@ -100,14 +105,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Profile', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: Text(
+          'My Profile',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
         elevation: 0,
         // ඉහළ දකුණු කෙළවරේ තිබූ actions (Edit icon) කොටස සම්පූර්ණයෙන්ම ඉවත් කර ඇත
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: currentUser == null
+        child: _isLoadingData
+            ? const Center(child: CircularProgressIndicator())
+            : currentUser == null
             ? Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -116,7 +126,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     SizedBox(height: 16),
                     Text(
                       'You are not logged in!',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     SizedBox(height: 8),
                     Text(
@@ -129,7 +142,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.amber[700],
                         foregroundColor: Colors.white,
-                        padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 32,
+                          vertical: 12,
+                        ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -137,13 +153,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => LoginScreen()),
+                          MaterialPageRoute(
+                            builder: (context) => LoginScreen(),
+                          ),
                         ).then((_) {
                           setState(() {});
                           _fetchUserDataFromFirestore();
                         });
                       },
-                      child: Text('Login / Register', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                      child: Text(
+                        'Login / Register',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -159,7 +183,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           backgroundColor: Colors.amber[700],
                           backgroundImage: profileImageProvider,
                           child: profileImageProvider == null
-                              ? Icon(Icons.person, size: 60, color: Colors.white)
+                              ? Icon(
+                                  Icons.person,
+                                  size: 60,
+                                  color: Colors.white,
+                                )
                               : null,
                         ),
                         Positioned(
@@ -170,7 +198,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             radius: 16,
                             child: IconButton(
                               padding: EdgeInsets.zero,
-                              icon: Icon(Icons.edit, size: 14, color: Colors.white),
+                              icon: Icon(
+                                Icons.edit,
+                                size: 14,
+                                color: Colors.white,
+                              ),
                               onPressed: _navigateToEditProfile,
                             ),
                           ),
@@ -186,10 +218,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   SizedBox(height: 6),
                   Text(
                     currentUser.email ?? '',
-                    style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: colorScheme.onSurfaceVariant,
+                    ),
                   ),
                   SizedBox(height: 30),
-                  
+
                   // Edit Profile බොත්තම
                   Card(
                     elevation: 1,
@@ -197,9 +232,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: ListTile(
-                      leading: Icon(Icons.manage_accounts, color: Colors.amber[700]),
-                      title: Text('Edit Profile', style: TextStyle(fontWeight: FontWeight.bold)),
-                      trailing: Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
+                      leading: Icon(
+                        Icons.manage_accounts,
+                        color: Colors.amber[700],
+                      ),
+                      title: Text(
+                        'Edit Profile',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios,
+                        size: 16,
+                        color: Colors.grey,
+                      ),
                       onTap: _navigateToEditProfile,
                     ),
                   ),
@@ -213,7 +258,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     child: ListTile(
                       leading: Icon(Icons.email, color: Colors.amber[700]),
-                      title: Text('Email Address', style: TextStyle(fontWeight: FontWeight.bold)),
+                      title: Text(
+                        'Email Address',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                       subtitle: Text(currentUser.email ?? 'N/A'),
                     ),
                   ),
@@ -239,7 +287,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           SnackBar(content: Text('Logged out successfully!')),
                         );
                       },
-                      child: Text('Log Out', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                      child: Text(
+                        'Log Out',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
                   SizedBox(height: 20),
