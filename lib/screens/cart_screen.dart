@@ -87,9 +87,7 @@ class _CartScreenState extends State<CartScreen> {
                               height: 64,
                               padding: const EdgeInsets.all(4),
                               decoration: BoxDecoration(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.surfaceContainerHighest,
+                                color: Colors.white,
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child:
