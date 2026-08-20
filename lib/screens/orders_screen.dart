@@ -10,6 +10,69 @@ class OrdersScreen extends StatefulWidget {
 }
 
 class _OrdersScreenState extends State<OrdersScreen> {
+  Future<String> _findProductImage(Map<String, dynamic> item) async {
+    final storedImage = item['image'] ?? item['imageUrl'] ?? item['imageURL'];
+    if (storedImage is String && storedImage.trim().isNotEmpty) {
+      return storedImage.trim();
+    }
+
+    final productId = item['id']?.toString();
+    if (productId != null && productId.isNotEmpty) {
+      final product = await FirebaseFirestore.instance
+          .collection('products')
+          .doc(productId)
+          .get();
+      final image = product.data()?['image'] ?? product.data()?['imageUrl'];
+      if (image is String && image.trim().isNotEmpty) return image.trim();
+    }
+
+    final productName = item['name']?.toString();
+    if (productName != null && productName.isNotEmpty) {
+      final products = await FirebaseFirestore.instance
+          .collection('products')
+          .where('name', isEqualTo: productName)
+          .limit(1)
+          .get();
+      if (products.docs.isNotEmpty) {
+        final image =
+            products.docs.first.data()['image'] ??
+            products.docs.first.data()['imageUrl'];
+        if (image is String && image.trim().isNotEmpty) return image.trim();
+      }
+    }
+
+    return '';
+  }
+
+  Widget _orderImage(Map<String, dynamic> item, ColorScheme colorScheme) {
+    return FutureBuilder<String>(
+      future: _findProductImage(item),
+      builder: (context, snapshot) {
+        final imageUrl = snapshot.data ?? '';
+        if (imageUrl.isNotEmpty) {
+          return Image.network(
+            imageUrl,
+            width: 50,
+            height: 50,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) =>
+                _imagePlaceholder(colorScheme, Icons.image_not_supported),
+          );
+        }
+        return _imagePlaceholder(colorScheme, Icons.image);
+      },
+    );
+  }
+
+  Widget _imagePlaceholder(ColorScheme colorScheme, IconData icon) {
+    return Container(
+      width: 50,
+      height: 50,
+      color: colorScheme.surfaceContainerHighest,
+      child: Icon(icon, color: Colors.grey),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -246,38 +309,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                 children: [
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(8),
-                                    child: imageUrl.isNotEmpty
-                                        ? Image.network(
-                                            imageUrl,
-                                            width: 50,
-                                            height: 50,
-                                            fit: BoxFit.cover,
-                                            errorBuilder:
-                                                (
-                                                  context,
-                                                  error,
-                                                  stackTrace,
-                                                ) => Container(
-                                                  width: 50,
-                                                  height: 50,
-                                                  color: colorScheme
-                                                      .surfaceContainerHighest,
-                                                  child: Icon(
-                                                    Icons.image_not_supported,
-                                                    color: Colors.grey,
-                                                  ),
-                                                ),
-                                          )
-                                        : Container(
-                                            width: 50,
-                                            height: 50,
-                                            color: colorScheme
-                                                .surfaceContainerHighest,
-                                            child: Icon(
-                                              Icons.image,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
+                                    child: _orderImage(item, colorScheme),
                                   ),
                                   SizedBox(width: 12),
                                   Expanded(
